@@ -41,7 +41,6 @@
     // Phases
     phase1: document.getElementById('phase-1'),
     phase2: document.getElementById('phase-2'),
-    phase3: document.getElementById('phase-3'),
 
     // Slider
     contactSlider: document.getElementById('contact-count'),
@@ -60,17 +59,16 @@
     pricingCards: document.querySelectorAll('.pricing-card'),
     viralToggle: document.getElementById('viral-toggle'),
 
-    // Phase 2 CTAs
-    reserveCta: document.getElementById('reserve-cta'),
-    needTimeBtn: document.getElementById('need-time-btn'),
+    // Application form
+    applicationForm: document.getElementById('application-form'),
+    applicationSuccess: document.getElementById('application-success'),
 
-    // Waitlist
-    waitlistWrapper: document.getElementById('waitlist-wrapper'),
-    waitlistForm: document.getElementById('waitlist-form'),
-    waitlistSuccess: document.getElementById('waitlist-success'),
+    // Custom dropdown
+    contactSourceDropdown: document.getElementById('contact-source-dropdown'),
+    contactSourceHidden: document.getElementById('contact-source'),
 
-    // Reservation form
-    reservationForm: document.getElementById('reservation-form'),
+    // Plan header
+    selectedTierName: document.querySelector('.selected-tier-name'),
 
     // Hidden fields
     formVariant: document.getElementById('form-variant'),
@@ -79,9 +77,7 @@
     formViral: document.getElementById('form-viral'),
     formTimestamp: document.getElementById('form-timestamp'),
     formRelationshipTypes: document.getElementById('form-relationship-types'),
-    formPrimaryGoal: document.getElementById('form-primary-goal'),
-    waitlistVariant: document.getElementById('waitlist-variant'),
-    waitlistTimestamp: document.getElementById('waitlist-timestamp')
+    formPrimaryGoal: document.getElementById('form-primary-goal')
   };
 
   // ==========================================================================
@@ -92,7 +88,7 @@
    * Track event with Plausible analytics
    */
   function trackEvent(eventName, props = {}) {
-    if (typeof plausible !== 'undefined') {
+    if (typeof plausible === 'function') {
       plausible(eventName, { props });
     } else {
       console.log('[Analytics]', eventName, props);
@@ -131,9 +127,13 @@
    */
   function getContactLimit(tierKey, viralEnabled) {
     const tier = TIERS[tierKey];
-    if (!tier || tierKey === 'leader') return tier ? '1,000+' : '200';
+    if (!tier || tierKey === 'leader') return tier ? '1K+' : '200';
     const base = tier.baseContacts;
     const limit = viralEnabled ? Math.floor(base * 1.5) : base;
+    // Use "1K" notation for 1000+
+    if (limit >= 1000) {
+      return limit === 1000 ? '1K' : (limit / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+    }
     return formatNumber(limit);
   }
 
@@ -156,9 +156,8 @@
       }
     });
 
-    // Set variant in hidden form fields
+    // Set variant in hidden form field
     if (elements.formVariant) elements.formVariant.value = variant;
-    if (elements.waitlistVariant) elements.waitlistVariant.value = variant;
   }
 
   // ==========================================================================
@@ -239,6 +238,11 @@
         limitEl.textContent = getContactLimit(cardTier, viralEnabled);
       }
     });
+
+    // Update plan header tier name
+    if (elements.selectedTierName) {
+      elements.selectedTierName.textContent = TIERS[currentTier].name;
+    }
   }
 
   function initViralToggle() {
@@ -249,6 +253,105 @@
       updatePricingCards();
       saveFormProgress();
       trackEvent(viralEnabled ? 'Viral_Toggle_On' : 'Viral_Toggle_Off');
+    });
+  }
+
+  function initPricingCardSelection() {
+    elements.pricingCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const newTier = card.dataset.tier;
+        if (newTier && newTier !== currentTier) {
+          currentTier = newTier;
+          updatePricingCards();
+          saveFormProgress();
+          trackEvent('Plan_Card_Click', { tier: newTier });
+        }
+      });
+    });
+  }
+
+  // ==========================================================================
+  // Custom Dropdown
+  // ==========================================================================
+
+  function initCustomDropdown() {
+    const dropdown = elements.contactSourceDropdown;
+    if (!dropdown) return;
+
+    const trigger = dropdown.querySelector('.dropdown-trigger');
+    const menu = dropdown.querySelector('.dropdown-menu');
+    const items = dropdown.querySelectorAll('.dropdown-item');
+    const selectedText = dropdown.querySelector('.dropdown-selected');
+    const hiddenInput = elements.contactSourceHidden;
+
+    // Toggle dropdown
+    trigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+      trigger.setAttribute('aria-expanded', !isOpen);
+      menu.classList.toggle('open', !isOpen);
+    });
+
+    // Handle item selection
+    items.forEach(item => {
+      item.addEventListener('click', () => {
+        const value = item.dataset.value;
+        const text = item.textContent;
+
+        // Update hidden input
+        hiddenInput.value = value;
+
+        // Update display
+        selectedText.textContent = text;
+        selectedText.classList.remove('placeholder');
+
+        // Update selected state
+        items.forEach(i => i.classList.remove('selected'));
+        item.classList.add('selected');
+
+        // Close dropdown
+        trigger.setAttribute('aria-expanded', 'false');
+        menu.classList.remove('open');
+
+        // Save form progress
+        saveFormProgress();
+      });
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!dropdown.contains(e.target)) {
+        trigger.setAttribute('aria-expanded', 'false');
+        menu.classList.remove('open');
+      }
+    });
+
+    // Keyboard navigation
+    trigger.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        trigger.setAttribute('aria-expanded', 'false');
+        menu.classList.remove('open');
+      }
+    });
+  }
+
+  function setDropdownValue(value) {
+    const dropdown = elements.contactSourceDropdown;
+    if (!dropdown || !value) return;
+
+    const items = dropdown.querySelectorAll('.dropdown-item');
+    const selectedText = dropdown.querySelector('.dropdown-selected');
+    const hiddenInput = elements.contactSourceHidden;
+
+    items.forEach(item => {
+      if (item.dataset.value === value) {
+        hiddenInput.value = value;
+        selectedText.textContent = item.textContent;
+        selectedText.classList.remove('placeholder');
+        item.classList.add('selected');
+      } else {
+        item.classList.remove('selected');
+      }
     });
   }
 
@@ -274,75 +377,43 @@
       });
     }
 
-    // Phase 1 CTA -> Phase 2
+    // Phase 1 CTA -> Phase 2 (with validation)
     if (elements.phase1Cta) {
       elements.phase1Cta.addEventListener('click', () => {
+        // Validate: at least one relationship type must be selected
+        const hasRelationshipType = Array.from(elements.checkboxes).some(cb => cb.checked);
+        // Validate: primary goal must be selected
+        const hasPrimaryGoal = document.querySelector('input[name="primary_goal"]:checked');
+
+        if (!hasRelationshipType || !hasPrimaryGoal) {
+          // Show validation messages
+          if (!hasRelationshipType) {
+            const fieldset = document.querySelector('input[name="relationship_types"]').closest('fieldset');
+            fieldset.classList.add('validation-error');
+            setTimeout(() => fieldset.classList.remove('validation-error'), 3000);
+          }
+          if (!hasPrimaryGoal) {
+            const fieldset = document.querySelector('input[name="primary_goal"]').closest('fieldset');
+            fieldset.classList.add('validation-error');
+            setTimeout(() => fieldset.classList.remove('validation-error'), 3000);
+          }
+          // Scroll to first error
+          const firstError = document.querySelector('.validation-error');
+          if (firstError) {
+            scrollToElement(firstError, 100);
+          }
+          return;
+        }
+
         showPhase(2);
         trackEvent('Phase1_Completed');
         trackEvent('Pricing_Viewed');
       });
     }
-
-    // Reserve CTA -> Phase 3
-    if (elements.reserveCta) {
-      elements.reserveCta.addEventListener('click', () => {
-        trackEvent('Reserve_Clicked');
-        showPhase(3);
-      });
-    }
-
-    // Need more time -> Show waitlist form
-    if (elements.needTimeBtn) {
-      elements.needTimeBtn.addEventListener('click', () => {
-        elements.waitlistWrapper.classList.add('visible');
-        elements.needTimeBtn.style.display = 'none';
-      });
-    }
   }
 
   // ==========================================================================
-  // Waitlist Form
-  // ==========================================================================
-
-  function initWaitlistForm() {
-    if (!elements.waitlistForm) return;
-
-    elements.waitlistForm.addEventListener('submit', async function(e) {
-      e.preventDefault();
-
-      // Set timestamp
-      elements.waitlistTimestamp.value = new Date().toISOString();
-
-      // Submit form
-      const formData = new FormData(this);
-
-      try {
-        const response = await fetch(this.action, {
-          method: 'POST',
-          body: formData,
-          headers: { 'Accept': 'application/json' }
-        });
-
-        if (response.ok) {
-          trackEvent('Waitlist_Submitted');
-          elements.waitlistForm.style.display = 'none';
-          elements.waitlistSuccess.classList.add('visible');
-          localStorage.removeItem(STORAGE_KEY);
-        } else {
-          throw new Error('Form submission failed');
-        }
-      } catch (error) {
-        console.error('Waitlist submission error:', error);
-        const errorEl = document.getElementById('waitlist-error');
-        if (errorEl) {
-          errorEl.textContent = 'Something went wrong. Please try again.';
-        }
-      }
-    });
-  }
-
-  // ==========================================================================
-  // Reservation Form
+  // Application Form
   // ==========================================================================
 
   function collectFormData() {
@@ -367,54 +438,66 @@
     };
   }
 
-  function initReservationForm() {
-    if (!elements.reservationForm) return;
+  function initApplicationForm() {
+    if (!elements.applicationForm) return;
 
-    elements.reservationForm.addEventListener('submit', async function(e) {
+    elements.applicationForm.addEventListener('submit', async function(e) {
       e.preventDefault();
 
-      // Validate email
       const emailInput = document.getElementById('user-email');
       const emailError = document.getElementById('email-error');
-      if (!emailInput.value || !emailInput.validity.valid) {
-        emailError.textContent = 'Please enter a valid email address';
-        emailInput.focus();
-        return;
-      }
-      emailError.textContent = '';
-
-      // Populate hidden fields
-      const formData = collectFormData();
-      elements.formVariant.value = variant;
-      elements.formTier.value = currentTier;
-      elements.formContactCount.value = elements.contactSlider ? elements.contactSlider.value : '200';
-      elements.formViral.value = viralEnabled ? 'true' : 'false';
-      elements.formTimestamp.value = new Date().toISOString();
-      elements.formRelationshipTypes.value = formData.relationshipTypes;
-      elements.formPrimaryGoal.value = formData.primaryGoal;
-
-      // Submit form
-      const data = new FormData(this);
 
       try {
+        // Validate email
+        if (!emailInput.value || !emailInput.validity.valid) {
+          emailError.textContent = 'Please enter a valid email address';
+          emailInput.focus();
+          return;
+        }
+        emailError.textContent = '';
+
+        // Populate hidden fields with defensive checks
+        const formData = collectFormData();
+        if (elements.formVariant) elements.formVariant.value = variant;
+        if (elements.formTier) elements.formTier.value = currentTier;
+        if (elements.formContactCount) elements.formContactCount.value = elements.contactSlider ? elements.contactSlider.value : '200';
+        if (elements.formViral) elements.formViral.value = viralEnabled ? 'true' : 'false';
+        if (elements.formTimestamp) elements.formTimestamp.value = new Date().toISOString();
+        if (elements.formRelationshipTypes) elements.formRelationshipTypes.value = formData.relationshipTypes;
+        if (elements.formPrimaryGoal) elements.formPrimaryGoal.value = formData.primaryGoal;
+
+        // Submit form
+        const data = new FormData(this);
+
         const response = await fetch(this.action, {
           method: 'POST',
           body: data,
           headers: { 'Accept': 'application/json' }
         });
 
+        const result = await response.json().catch(() => ({}));
+
         if (response.ok) {
-          trackEvent('Full_Reservation_Submitted');
+          trackEvent('Application_Submitted');
           localStorage.removeItem(STORAGE_KEY);
-          window.location.href = 'thank-you.html';
+          // Hide form and show success message
+          elements.applicationForm.style.display = 'none';
+          document.querySelector('.invitation-notice').style.display = 'none';
+          elements.applicationSuccess.classList.add('visible');
         } else {
-          throw new Error('Form submission failed');
+          console.error('Formspree error:', response.status, result);
+          const errorMessage = result.error || result.errors?.[0]?.message || 'Form submission failed';
+          throw new Error(errorMessage);
         }
       } catch (error) {
-        console.error('Reservation submission error:', error);
-        const emailError = document.getElementById('email-error');
+        console.error('Application submission error:', error);
         if (emailError) {
-          emailError.textContent = 'Something went wrong. Please try again.';
+          // Provide more specific error messages
+          if (error.name === 'TypeError' && error.message.includes('fetch')) {
+            emailError.textContent = 'Network error. Please check your connection and try again.';
+          } else {
+            emailError.textContent = error.message || 'Something went wrong. Please try again.';
+          }
         }
       }
     });
@@ -427,12 +510,12 @@
   function saveFormProgress() {
     const data = {
       contactCount: elements.contactSlider ? elements.contactSlider.value : '200',
+      selectedTier: currentTier,
       relationshipTypes: [],
       primaryGoal: '',
       viralEnabled: viralEnabled,
       linkedinUrl: document.getElementById('linkedin-url')?.value || '',
       contactSource: document.getElementById('contact-source')?.value || '',
-      currentCrm: document.getElementById('current-crm')?.value || '',
       email: document.getElementById('user-email')?.value || '',
       additionalNotes: document.getElementById('additional-notes')?.value || ''
     };
@@ -470,6 +553,12 @@
         updateSliderDisplay(data.contactCount);
       }
 
+      // Restore selected tier (may differ from slider-derived tier if manually selected)
+      if (data.selectedTier && TIERS[data.selectedTier]) {
+        currentTier = data.selectedTier;
+        updatePricingCards();
+      }
+
       // Restore checkboxes
       if (data.relationshipTypes && data.relationshipTypes.length) {
         data.relationshipTypes.forEach(item => {
@@ -501,15 +590,12 @@
         updatePricingCards();
       }
 
-      // Restore phase 3 fields
+      // Restore application form fields
       const linkedinUrl = document.getElementById('linkedin-url');
       if (linkedinUrl && data.linkedinUrl) linkedinUrl.value = data.linkedinUrl;
 
-      const contactSource = document.getElementById('contact-source');
-      if (contactSource && data.contactSource) contactSource.value = data.contactSource;
-
-      const currentCrm = document.getElementById('current-crm');
-      if (currentCrm && data.currentCrm) currentCrm.value = data.currentCrm;
+      // Restore custom dropdown
+      if (data.contactSource) setDropdownValue(data.contactSource);
 
       const email = document.getElementById('user-email');
       if (email && data.email) email.value = data.email;
@@ -543,9 +629,10 @@
     initSlider();
     initCheckboxes();
     initViralToggle();
+    initPricingCardSelection();
+    initCustomDropdown();
     initPhaseNavigation();
-    initWaitlistForm();
-    initReservationForm();
+    initApplicationForm();
     initFormPersistence();
 
     // Update pricing cards initially

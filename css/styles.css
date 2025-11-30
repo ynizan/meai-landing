@@ -64,6 +64,7 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -319,6 +320,18 @@ h1, h2, h3 {
 
 fieldset {
   border: none;
+  transition: all var(--transition-base);
+}
+
+fieldset.validation-error {
+  background: rgba(248, 113, 113, 0.1);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  margin: calc(-1 * var(--spacing-md));
+}
+
+fieldset.validation-error legend.form-label {
+  color: var(--error);
 }
 
 legend.form-label {
@@ -369,6 +382,102 @@ legend.form-label {
   font-size: var(--font-size-sm);
   color: var(--error);
   margin-top: var(--spacing-xs);
+}
+
+/* Custom Dropdown
+   ========================================================================== */
+.custom-dropdown {
+  position: relative;
+  width: 100%;
+}
+
+.dropdown-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md);
+  font-family: inherit;
+  font-size: var(--font-size-base);
+  color: var(--text-primary);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: border-color var(--transition-fast);
+  text-align: left;
+}
+
+.dropdown-trigger:hover {
+  border-color: var(--text-muted);
+}
+
+.dropdown-trigger:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.dropdown-trigger[aria-expanded="true"] {
+  border-color: var(--accent);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.dropdown-selected {
+  flex: 1;
+}
+
+.dropdown-selected.placeholder {
+  color: var(--text-muted);
+}
+
+.dropdown-arrow {
+  flex-shrink: 0;
+  color: var(--text-muted);
+  transition: transform var(--transition-fast);
+}
+
+.dropdown-trigger[aria-expanded="true"] .dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: var(--bg-card);
+  border: 1px solid var(--accent);
+  border-top: none;
+  border-bottom-left-radius: var(--radius-md);
+  border-bottom-right-radius: var(--radius-md);
+  list-style: none;
+  z-index: 100;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height var(--transition-base), opacity var(--transition-fast);
+}
+
+.dropdown-menu.open {
+  max-height: 300px;
+  opacity: 1;
+  overflow-y: auto;
+}
+
+.dropdown-item {
+  padding: var(--spacing-md);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.dropdown-item:hover {
+  background-color: var(--bg-secondary);
+}
+
+.dropdown-item.selected {
+  background-color: rgba(212, 165, 116, 0.15);
+  color: var(--accent);
 }
 
 /* Slider
@@ -552,6 +661,28 @@ legend.form-label {
   color: var(--text-muted);
 }
 
+/* Plan Header
+   ========================================================================== */
+.plan-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.plan-summary {
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.plan-summary .selected-tier-name {
+  color: var(--accent);
+}
+
 /* Pricing Grid
    ========================================================================== */
 .pricing-grid {
@@ -581,6 +712,12 @@ legend.form-label {
   text-align: center;
   transition: all var(--transition-base);
   opacity: 0.7;
+  cursor: pointer;
+}
+
+.pricing-card:hover {
+  border-color: var(--text-muted);
+  opacity: 0.85;
 }
 
 .pricing-card.highlighted {
@@ -608,6 +745,7 @@ legend.form-label {
 .pricing-contacts {
   font-size: var(--font-size-sm);
   color: var(--text-secondary);
+  white-space: nowrap;
 }
 
 .pricing-body {
@@ -715,14 +853,63 @@ legend.form-label {
   padding-left: calc(48px + var(--spacing-md));
 }
 
-/* Commitment Actions
+/* Application Section
    ========================================================================== */
-.commitment-actions {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--spacing-md);
+.application-section {
+  margin-top: var(--spacing-2xl);
+}
+
+.invitation-notice {
+  text-align: center;
+  padding: var(--spacing-xl);
+  background: linear-gradient(135deg, rgba(212, 165, 116, 0.1), rgba(212, 165, 116, 0.05));
+  border: 1px solid rgba(212, 165, 116, 0.3);
+  border-radius: var(--radius-lg);
   margin-bottom: var(--spacing-xl);
+}
+
+.invitation-heading {
+  font-size: var(--font-size-xl);
+  color: var(--accent);
+  margin-bottom: var(--spacing-sm);
+}
+
+.invitation-text {
+  color: var(--text-secondary);
+  font-size: var(--font-size-base);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.application-success {
+  display: none;
+  text-align: center;
+  padding: var(--spacing-2xl);
+  background: rgba(74, 222, 128, 0.05);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  border-radius: var(--radius-lg);
+}
+
+.application-success.visible {
+  display: block;
+}
+
+.success-icon {
+  color: var(--success);
+  margin-bottom: var(--spacing-lg);
+}
+
+.success-heading {
+  font-size: var(--font-size-xl);
+  color: var(--success);
+  margin-bottom: var(--spacing-md);
+}
+
+.success-text {
+  color: var(--text-secondary);
+  font-size: var(--font-size-base);
+  max-width: 400px;
+  margin: 0 auto;
 }
 
 /* CTA Wrapper (reusable)

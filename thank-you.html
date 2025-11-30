@@ -93,13 +93,13 @@
 
     // Track share clicks with Plausible
     document.getElementById('share-linkedin').addEventListener('click', function() {
-      if (typeof plausible !== 'undefined') {
+      if (typeof plausible === 'function') {
         plausible('Share_LinkedIn_Clicked');
       }
     });
 
     document.getElementById('share-twitter').addEventListener('click', function() {
-      if (typeof plausible !== 'undefined') {
+      if (typeof plausible === 'function') {
         plausible('Share_Twitter_Clicked');
       }
     });

@@ -224,6 +224,11 @@
       <div class="container">
         <h2 class="section-heading">Your InTouch Plan</h2>
 
+        <!-- Plan Selection Header -->
+        <div class="plan-header">
+          <p class="plan-summary">Your selected plan: <strong class="selected-tier-name">Starter</strong></p>
+        </div>
+
         <!-- Pricing Cards -->
         <div class="pricing-grid">
           <div class="pricing-card" data-tier="starter">
@@ -257,7 +262,7 @@
           <div class="pricing-card" data-tier="executive">
             <div class="pricing-header">
               <h3 class="pricing-tier-name">Executive</h3>
-              <p class="pricing-contacts">Up to <span class="contact-limit">1,000</span> contacts</p>
+              <p class="pricing-contacts">Up to <span class="contact-limit">1K</span> contacts</p>
             </div>
             <div class="pricing-body">
               <div class="pricing-price">
@@ -293,124 +298,99 @@
           <p class="viral-note">Your AI will naturally mention InTouch when relevant. You stay in control.</p>
         </div>
 
-        <!-- Two Paths -->
-        <div class="commitment-actions">
-          <button class="btn btn-primary btn-large" id="reserve-cta">Reserve my spot as Founding Member</button>
-          <button class="btn-link" id="need-time-btn">I need more time to decide</button>
-        </div>
+        <!-- Application Form -->
+        <div class="application-section">
+          <div class="invitation-notice">
+            <h3 class="invitation-heading">Apply for Early Access</h3>
+            <p class="invitation-text">InTouch is currently invitation-only. Complete your application below and we'll be in touch when more spots become available.</p>
+          </div>
 
-        <!-- Waitlist Form (hidden by default) -->
-        <div class="waitlist-form-wrapper" id="waitlist-wrapper">
           <form
-            id="waitlist-form"
+            id="application-form"
             action="https://formspree.io/f/xovgqgvk"
             method="POST"
-            class="waitlist-form"
+            class="form"
           >
-            <input type="hidden" name="hero_variant" id="waitlist-variant">
-            <input type="hidden" name="timestamp" id="waitlist-timestamp">
-            <div class="waitlist-input-group">
-              <label for="waitlist-email" class="sr-only">Email address</label>
+            <!-- Hidden fields -->
+            <input type="hidden" name="hero_variant" id="form-variant">
+            <input type="hidden" name="selected_tier" id="form-tier">
+            <input type="hidden" name="contact_count" id="form-contact-count">
+            <input type="hidden" name="viral_opted_in" id="form-viral">
+            <input type="hidden" name="timestamp" id="form-timestamp">
+            <input type="hidden" name="relationship_types" id="form-relationship-types">
+            <input type="hidden" name="primary_goal" id="form-primary-goal">
+
+            <div class="form-group">
+              <label for="user-email" class="form-label">Your email</label>
               <input
                 type="email"
-                id="waitlist-email"
+                id="user-email"
                 name="email"
-                placeholder="Enter your email"
                 required
-                aria-describedby="waitlist-error"
+                class="form-input"
+                placeholder="you@example.com"
+                aria-describedby="email-error"
               >
-              <button type="submit" class="btn btn-secondary">Keep me posted</button>
+              <span class="form-error" id="email-error" role="alert"></span>
             </div>
-            <span class="form-error" id="waitlist-error" role="alert"></span>
+
+            <div class="form-group">
+              <label for="linkedin-url" class="form-label">LinkedIn profile URL <span class="optional">(optional)</span></label>
+              <input
+                type="url"
+                id="linkedin-url"
+                name="linkedin_url"
+                placeholder="linkedin.com/in/yourname"
+                class="form-input"
+              >
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Where do you backup your contacts?</label>
+              <input type="hidden" id="contact-source" name="contact_source" required>
+              <div class="custom-dropdown" id="contact-source-dropdown">
+                <button type="button" class="dropdown-trigger" aria-haspopup="listbox" aria-expanded="false">
+                  <span class="dropdown-selected">Select an option</span>
+                  <svg class="dropdown-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                </button>
+                <ul class="dropdown-menu" role="listbox">
+                  <li class="dropdown-item" data-value="google_contacts" role="option">Google Contacts</li>
+                  <li class="dropdown-item" data-value="icloud" role="option">iCloud</li>
+                  <li class="dropdown-item" data-value="company_crm" role="option">Company CRM (Salesforce, HubSpot, ...)</li>
+                  <li class="dropdown-item" data-value="personal_crm" role="option">Personal CRM (Folk, Clay, ...)</li>
+                  <li class="dropdown-item" data-value="no_backup" role="option">No cloud backup</li>
+                  <li class="dropdown-item" data-value="other" role="option">Other</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="additional-notes" class="form-label">Anything else we should know? <span class="optional">(optional)</span></label>
+              <textarea
+                id="additional-notes"
+                name="additional_notes"
+                rows="3"
+                class="form-textarea"
+                placeholder="Tell us more about your relationship goals..."
+              ></textarea>
+            </div>
+
+            <div class="cta-wrapper">
+              <button type="submit" class="btn btn-primary btn-large" id="final-submit">Submit Application</button>
+            </div>
           </form>
-          <div class="waitlist-success" id="waitlist-success">
-            Thanks! We'll follow up soon.
+
+          <div class="application-success" id="application-success">
+            <div class="success-icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+            </div>
+            <h3 class="success-heading">Thanks for your application!</h3>
+            <p class="success-text">We're currently onboarding founding members in small batches. We'll reach out when more spots become available.</p>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- PHASE 3: Onboarding Details -->
-    <section class="phase phase-3" id="phase-3">
-      <div class="container">
-        <h2 class="section-heading">Almost there — help us prepare your account</h2>
-
-        <form
-          id="reservation-form"
-          action="https://formspree.io/f/xovgqgvk"
-          method="POST"
-          class="form"
-        >
-          <!-- Hidden fields -->
-          <input type="hidden" name="hero_variant" id="form-variant">
-          <input type="hidden" name="selected_tier" id="form-tier">
-          <input type="hidden" name="contact_count" id="form-contact-count">
-          <input type="hidden" name="viral_opted_in" id="form-viral">
-          <input type="hidden" name="timestamp" id="form-timestamp">
-          <input type="hidden" name="relationship_types" id="form-relationship-types">
-          <input type="hidden" name="primary_goal" id="form-primary-goal">
-
-          <div class="form-group">
-            <label for="linkedin-url" class="form-label">LinkedIn profile URL</label>
-            <input
-              type="url"
-              id="linkedin-url"
-              name="linkedin_url"
-              placeholder="linkedin.com/in/yourname"
-              class="form-input"
-            >
-          </div>
-
-          <div class="form-group">
-            <label for="contact-source" class="form-label">Where do you keep your contacts?</label>
-            <select id="contact-source" name="contact_source" class="form-select" required>
-              <option value="">Select an option</option>
-              <option value="google_contacts">Google Contacts</option>
-              <option value="icloud">iCloud</option>
-              <option value="salesforce">Salesforce</option>
-              <option value="hubspot">HubSpot</option>
-              <option value="csv">CSV / spreadsheet</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="current-crm" class="form-label">Current CRM, if any <span class="optional">(optional)</span></label>
-            <input
-              type="text"
-              id="current-crm"
-              name="current_crm"
-              placeholder="e.g., Salesforce, HubSpot, Affinity..."
-              class="form-input"
-            >
-          </div>
-
-          <div class="form-group">
-            <label for="user-email" class="form-label">Your email</label>
-            <input
-              type="email"
-              id="user-email"
-              name="email"
-              required
-              class="form-input"
-              aria-describedby="email-error"
-            >
-            <span class="form-error" id="email-error" role="alert"></span>
-          </div>
-
-          <div class="form-group">
-            <label for="additional-notes" class="form-label">Anything else about your relationship goals? <span class="optional">(optional)</span></label>
-            <textarea
-              id="additional-notes"
-              name="additional_notes"
-              rows="3"
-              class="form-textarea"
-              placeholder="Tell us more about what you're looking for..."
-            ></textarea>
-          </div>
-
-          <button type="submit" class="btn btn-primary btn-large" id="final-submit">Complete my reservation</button>
-        </form>
       </div>
     </section>
   </main>
