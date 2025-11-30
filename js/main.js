@@ -41,7 +41,6 @@
     // Phases
     phase1: document.getElementById('phase-1'),
     phase2: document.getElementById('phase-2'),
-    phase3: document.getElementById('phase-3'),
 
     // Slider
     contactSlider: document.getElementById('contact-count'),
@@ -60,17 +59,9 @@
     pricingCards: document.querySelectorAll('.pricing-card'),
     viralToggle: document.getElementById('viral-toggle'),
 
-    // Phase 2 CTAs
-    reserveCta: document.getElementById('reserve-cta'),
-    needTimeBtn: document.getElementById('need-time-btn'),
-
-    // Waitlist
-    waitlistWrapper: document.getElementById('waitlist-wrapper'),
-    waitlistForm: document.getElementById('waitlist-form'),
-    waitlistSuccess: document.getElementById('waitlist-success'),
-
-    // Reservation form
-    reservationForm: document.getElementById('reservation-form'),
+    // Application form
+    applicationForm: document.getElementById('application-form'),
+    applicationSuccess: document.getElementById('application-success'),
 
     // Hidden fields
     formVariant: document.getElementById('form-variant'),
@@ -79,9 +70,7 @@
     formViral: document.getElementById('form-viral'),
     formTimestamp: document.getElementById('form-timestamp'),
     formRelationshipTypes: document.getElementById('form-relationship-types'),
-    formPrimaryGoal: document.getElementById('form-primary-goal'),
-    waitlistVariant: document.getElementById('waitlist-variant'),
-    waitlistTimestamp: document.getElementById('waitlist-timestamp')
+    formPrimaryGoal: document.getElementById('form-primary-goal')
   };
 
   // ==========================================================================
@@ -156,9 +145,8 @@
       }
     });
 
-    // Set variant in hidden form fields
+    // Set variant in hidden form field
     if (elements.formVariant) elements.formVariant.value = variant;
-    if (elements.waitlistVariant) elements.waitlistVariant.value = variant;
   }
 
   // ==========================================================================
@@ -274,75 +262,44 @@
       });
     }
 
-    // Phase 1 CTA -> Phase 2
+    // Phase 1 CTA -> Phase 2 (with validation)
     if (elements.phase1Cta) {
       elements.phase1Cta.addEventListener('click', () => {
+        // Validate: at least one relationship type must be selected
+        const hasRelationshipType = Array.from(elements.checkboxes).some(cb => cb.checked);
+        // Validate: primary goal must be selected
+        const hasPrimaryGoal = document.querySelector('input[name="primary_goal"]:checked');
+
+        if (!hasRelationshipType || !hasPrimaryGoal) {
+          // Show validation messages
+          if (!hasRelationshipType) {
+            const fieldset = document.querySelector('input[name="relationship_types"]').closest('fieldset');
+            fieldset.classList.add('validation-error');
+            setTimeout(() => fieldset.classList.remove('validation-error'), 3000);
+          }
+          if (!hasPrimaryGoal) {
+            const fieldset = document.querySelector('input[name="primary_goal"]').closest('fieldset');
+            fieldset.classList.add('validation-error');
+            setTimeout(() => fieldset.classList.remove('validation-error'), 3000);
+          }
+          // Scroll to first error
+          const firstError = document.querySelector('.validation-error');
+          if (firstError) {
+            scrollToElement(firstError, 100);
+          }
+          return;
+        }
+
         showPhase(2);
         trackEvent('Phase1_Completed');
         trackEvent('Pricing_Viewed');
       });
     }
 
-    // Reserve CTA -> Phase 3
-    if (elements.reserveCta) {
-      elements.reserveCta.addEventListener('click', () => {
-        trackEvent('Reserve_Clicked');
-        showPhase(3);
-      });
-    }
-
-    // Need more time -> Show waitlist form
-    if (elements.needTimeBtn) {
-      elements.needTimeBtn.addEventListener('click', () => {
-        elements.waitlistWrapper.classList.add('visible');
-        elements.needTimeBtn.style.display = 'none';
-      });
-    }
   }
 
   // ==========================================================================
-  // Waitlist Form
-  // ==========================================================================
-
-  function initWaitlistForm() {
-    if (!elements.waitlistForm) return;
-
-    elements.waitlistForm.addEventListener('submit', async function(e) {
-      e.preventDefault();
-
-      // Set timestamp
-      elements.waitlistTimestamp.value = new Date().toISOString();
-
-      // Submit form
-      const formData = new FormData(this);
-
-      try {
-        const response = await fetch(this.action, {
-          method: 'POST',
-          body: formData,
-          headers: { 'Accept': 'application/json' }
-        });
-
-        if (response.ok) {
-          trackEvent('Waitlist_Submitted');
-          elements.waitlistForm.style.display = 'none';
-          elements.waitlistSuccess.classList.add('visible');
-          localStorage.removeItem(STORAGE_KEY);
-        } else {
-          throw new Error('Form submission failed');
-        }
-      } catch (error) {
-        console.error('Waitlist submission error:', error);
-        const errorEl = document.getElementById('waitlist-error');
-        if (errorEl) {
-          errorEl.textContent = 'Something went wrong. Please try again.';
-        }
-      }
-    });
-  }
-
-  // ==========================================================================
-  // Reservation Form
+  // Application Form
   // ==========================================================================
 
   function collectFormData() {
@@ -367,10 +324,10 @@
     };
   }
 
-  function initReservationForm() {
-    if (!elements.reservationForm) return;
+  function initApplicationForm() {
+    if (!elements.applicationForm) return;
 
-    elements.reservationForm.addEventListener('submit', async function(e) {
+    elements.applicationForm.addEventListener('submit', async function(e) {
       e.preventDefault();
 
       // Validate email
@@ -404,15 +361,17 @@
         });
 
         if (response.ok) {
-          trackEvent('Full_Reservation_Submitted');
+          trackEvent('Application_Submitted');
           localStorage.removeItem(STORAGE_KEY);
-          window.location.href = 'thank-you.html';
+          // Hide form and show success message
+          elements.applicationForm.style.display = 'none';
+          document.querySelector('.invitation-notice').style.display = 'none';
+          elements.applicationSuccess.classList.add('visible');
         } else {
           throw new Error('Form submission failed');
         }
       } catch (error) {
-        console.error('Reservation submission error:', error);
-        const emailError = document.getElementById('email-error');
+        console.error('Application submission error:', error);
         if (emailError) {
           emailError.textContent = 'Something went wrong. Please try again.';
         }
@@ -432,7 +391,6 @@
       viralEnabled: viralEnabled,
       linkedinUrl: document.getElementById('linkedin-url')?.value || '',
       contactSource: document.getElementById('contact-source')?.value || '',
-      currentCrm: document.getElementById('current-crm')?.value || '',
       email: document.getElementById('user-email')?.value || '',
       additionalNotes: document.getElementById('additional-notes')?.value || ''
     };
@@ -501,15 +459,12 @@
         updatePricingCards();
       }
 
-      // Restore phase 3 fields
+      // Restore application form fields
       const linkedinUrl = document.getElementById('linkedin-url');
       if (linkedinUrl && data.linkedinUrl) linkedinUrl.value = data.linkedinUrl;
 
       const contactSource = document.getElementById('contact-source');
       if (contactSource && data.contactSource) contactSource.value = data.contactSource;
-
-      const currentCrm = document.getElementById('current-crm');
-      if (currentCrm && data.currentCrm) currentCrm.value = data.currentCrm;
 
       const email = document.getElementById('user-email');
       if (email && data.email) email.value = data.email;
@@ -544,8 +499,7 @@
     initCheckboxes();
     initViralToggle();
     initPhaseNavigation();
-    initWaitlistForm();
-    initReservationForm();
+    initApplicationForm();
     initFormPersistence();
 
     // Update pricing cards initially

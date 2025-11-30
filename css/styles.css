@@ -319,6 +319,18 @@ h1, h2, h3 {
 
 fieldset {
   border: none;
+  transition: all var(--transition-base);
+}
+
+fieldset.validation-error {
+  background: rgba(248, 113, 113, 0.1);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  margin: calc(-1 * var(--spacing-md));
+}
+
+fieldset.validation-error legend.form-label {
+  color: var(--error);
 }
 
 legend.form-label {
@@ -715,14 +727,63 @@ legend.form-label {
   padding-left: calc(48px + var(--spacing-md));
 }
 
-/* Commitment Actions
+/* Application Section
    ========================================================================== */
-.commitment-actions {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--spacing-md);
+.application-section {
+  margin-top: var(--spacing-2xl);
+}
+
+.invitation-notice {
+  text-align: center;
+  padding: var(--spacing-xl);
+  background: linear-gradient(135deg, rgba(212, 165, 116, 0.1), rgba(212, 165, 116, 0.05));
+  border: 1px solid rgba(212, 165, 116, 0.3);
+  border-radius: var(--radius-lg);
   margin-bottom: var(--spacing-xl);
+}
+
+.invitation-heading {
+  font-size: var(--font-size-xl);
+  color: var(--accent);
+  margin-bottom: var(--spacing-sm);
+}
+
+.invitation-text {
+  color: var(--text-secondary);
+  font-size: var(--font-size-base);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.application-success {
+  display: none;
+  text-align: center;
+  padding: var(--spacing-2xl);
+  background: rgba(74, 222, 128, 0.05);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  border-radius: var(--radius-lg);
+}
+
+.application-success.visible {
+  display: block;
+}
+
+.success-icon {
+  color: var(--success);
+  margin-bottom: var(--spacing-lg);
+}
+
+.success-heading {
+  font-size: var(--font-size-xl);
+  color: var(--success);
+  margin-bottom: var(--spacing-md);
+}
+
+.success-text {
+  color: var(--text-secondary);
+  font-size: var(--font-size-base);
+  max-width: 400px;
+  margin: 0 auto;
 }
 
 /* CTA Wrapper (reusable)
