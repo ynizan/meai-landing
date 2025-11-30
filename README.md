@@ -59,14 +59,14 @@ Then open http://localhost:8000 in your browser.
 
 ### Plausible Analytics
 
-1. Set up your site in [Plausible](https://plausible.io)
-2. Replace `meai.example.com` in both HTML files with your actual domain
+1. Set up your site in [Plausible](https://plausible.io) with domain `intouch123.com`
+2. The domain is already configured in both HTML files
 
 ### Domain Configuration
 
-Replace all instances of `meai.example.com` with your actual domain:
-- `index.html` - canonical URL, Open Graph URLs
-- `thank-you.html` - share URLs
+The domain `intouch123.com` is configured in:
+- `index.html` - canonical URL, Open Graph URLs, Plausible
+- `thank-you.html` - share URLs, Plausible
 - `robots.txt` - sitemap URL
 - `sitemap.xml` - page URLs
 
@@ -146,7 +146,7 @@ Before going live, replace these placeholders:
 |-------------|----------|--------------|
 | `YOUR_FULL_FORM_ID` | index.html | Formspree form ID for reservations |
 | `YOUR_WAITLIST_FORM_ID` | index.html | Formspree form ID for waitlist |
-| `meai.example.com` | Multiple files | Your actual domain |
+| `intouch123.com` | Multiple files | Already configured |
 | `og-image.png` | images/ | Create and add this asset (1200x630px) |
 
 ## Browser Support
