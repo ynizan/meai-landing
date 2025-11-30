@@ -68,7 +68,6 @@
     contactSourceHidden: document.getElementById('contact-source'),
 
     // Plan header
-    changePlanBtn: document.getElementById('change-plan-btn'),
     selectedTierName: document.querySelector('.selected-tier-name'),
 
     // Hidden fields
@@ -257,6 +256,20 @@
     });
   }
 
+  function initPricingCardSelection() {
+    elements.pricingCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const newTier = card.dataset.tier;
+        if (newTier && newTier !== currentTier) {
+          currentTier = newTier;
+          updatePricingCards();
+          saveFormProgress();
+          trackEvent('Plan_Card_Click', { tier: newTier });
+        }
+      });
+    });
+  }
+
   // ==========================================================================
   // Custom Dropdown
   // ==========================================================================
@@ -397,14 +410,6 @@
         trackEvent('Pricing_Viewed');
       });
     }
-
-    // Change plan button -> scroll back to Phase 1
-    if (elements.changePlanBtn) {
-      elements.changePlanBtn.addEventListener('click', () => {
-        scrollToElement(elements.phase1, 20);
-        trackEvent('Change_Plan_Click');
-      });
-    }
   }
 
   // ==========================================================================
@@ -495,6 +500,7 @@
   function saveFormProgress() {
     const data = {
       contactCount: elements.contactSlider ? elements.contactSlider.value : '200',
+      selectedTier: currentTier,
       relationshipTypes: [],
       primaryGoal: '',
       viralEnabled: viralEnabled,
@@ -535,6 +541,12 @@
       if (data.contactCount && elements.contactSlider) {
         elements.contactSlider.value = data.contactCount;
         updateSliderDisplay(data.contactCount);
+      }
+
+      // Restore selected tier (may differ from slider-derived tier if manually selected)
+      if (data.selectedTier && TIERS[data.selectedTier]) {
+        currentTier = data.selectedTier;
+        updatePricingCards();
       }
 
       // Restore checkboxes
@@ -607,6 +619,7 @@
     initSlider();
     initCheckboxes();
     initViralToggle();
+    initPricingCardSelection();
     initCustomDropdown();
     initPhaseNavigation();
     initApplicationForm();

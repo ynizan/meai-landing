@@ -664,7 +664,7 @@ legend.form-label {
    ========================================================================== */
 .plan-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin-bottom: var(--spacing-lg);
   padding: var(--spacing-md) var(--spacing-lg);
@@ -711,6 +711,12 @@ legend.form-label {
   text-align: center;
   transition: all var(--transition-base);
   opacity: 0.7;
+  cursor: pointer;
+}
+
+.pricing-card:hover {
+  border-color: var(--text-muted);
+  opacity: 0.85;
 }
 
 .pricing-card.highlighted {
@@ -738,6 +744,7 @@ legend.form-label {
 .pricing-contacts {
   font-size: var(--font-size-sm);
   color: var(--text-secondary);
+  white-space: nowrap;
 }
 
 .pricing-body {
