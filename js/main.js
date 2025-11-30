@@ -269,16 +269,16 @@
     // Hero CTA -> Phase 1
     if (elements.heroCta) {
       elements.heroCta.addEventListener('click', () => {
-        trackEvent('Hero_CTA_Click');
         showPhase(1);
+        trackEvent('Hero_CTA_Click');
       });
     }
 
     // Phase 1 CTA -> Phase 2
     if (elements.phase1Cta) {
       elements.phase1Cta.addEventListener('click', () => {
-        trackEvent('Phase1_Completed');
         showPhase(2);
+        trackEvent('Phase1_Completed');
         trackEvent('Pricing_Viewed');
       });
     }
