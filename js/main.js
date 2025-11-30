@@ -277,8 +277,8 @@
     // Phase 1 CTA -> Phase 2
     if (elements.phase1Cta) {
       elements.phase1Cta.addEventListener('click', () => {
-        trackEvent('Phase1_Completed');
         showPhase(2);
+        trackEvent('Phase1_Completed');
         trackEvent('Pricing_Viewed');
       });
     }

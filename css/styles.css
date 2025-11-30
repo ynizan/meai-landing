@@ -719,6 +719,21 @@ legend.form-label {
   margin-bottom: var(--spacing-xl);
 }
 
+/* CTA Wrapper (reusable)
+   ========================================================================== */
+.cta-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-lg);
+}
+
+.cta-note {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
 /* Waitlist Form
    ========================================================================== */
 .waitlist-form-wrapper {
