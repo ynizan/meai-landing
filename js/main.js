@@ -474,6 +474,8 @@
           headers: { 'Accept': 'application/json' }
         });
 
+        const result = await response.json().catch(() => ({}));
+
         if (response.ok) {
           trackEvent('Application_Submitted');
           localStorage.removeItem(STORAGE_KEY);
@@ -482,12 +484,14 @@
           document.querySelector('.invitation-notice').style.display = 'none';
           elements.applicationSuccess.classList.add('visible');
         } else {
-          throw new Error('Form submission failed');
+          console.error('Formspree error:', response.status, result);
+          const errorMessage = result.error || result.errors?.[0]?.message || 'Form submission failed';
+          throw new Error(errorMessage);
         }
       } catch (error) {
         console.error('Application submission error:', error);
         if (emailError) {
-          emailError.textContent = 'Something went wrong. Please try again.';
+          emailError.textContent = error.message || 'Something went wrong. Please try again.';
         }
       }
     });
