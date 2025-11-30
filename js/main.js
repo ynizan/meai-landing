@@ -269,8 +269,8 @@
     // Hero CTA -> Phase 1
     if (elements.heroCta) {
       elements.heroCta.addEventListener('click', () => {
-        trackEvent('Hero_CTA_Click');
         showPhase(1);
+        trackEvent('Hero_CTA_Click');
       });
     }
 
