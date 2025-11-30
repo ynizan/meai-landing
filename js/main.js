@@ -15,8 +15,8 @@
   const TIERS = {
     starter: { min: 50, max: 200, name: 'Starter', price: '$100/mo', foundingPrice: '$70/mo', baseContacts: 200 },
     professional: { min: 201, max: 500, name: 'Professional', price: '$250/mo', foundingPrice: '$175/mo', baseContacts: 500 },
-    executive: { min: 501, max: 1000, name: 'Executive', price: '$500/mo', foundingPrice: '$350/mo', baseContacts: 1000 },
-    enterprise: { min: 1001, max: 2000, name: 'Enterprise', price: 'Custom', foundingPrice: "Let's talk", baseContacts: 1000 }
+    executive: { min: 501, max: 1000, name: 'Executive', price: '$350/mo', foundingPrice: '$245/mo', baseContacts: 1000 },
+    leader: { min: 1001, max: 2000, name: 'Leader', price: '$500/mo', foundingPrice: '$350/mo', baseContacts: 2000 }
   };
 
   // ==========================================================================
@@ -116,7 +116,7 @@
         return key;
       }
     }
-    return 'enterprise';
+    return 'leader';
   }
 
   /**
@@ -131,7 +131,7 @@
    */
   function getContactLimit(tierKey, viralEnabled) {
     const tier = TIERS[tierKey];
-    if (!tier || tierKey === 'enterprise') return tier ? '1,000+' : '200';
+    if (!tier || tierKey === 'leader') return tier ? '1,000+' : '200';
     const base = tier.baseContacts;
     const limit = viralEnabled ? Math.floor(base * 1.5) : base;
     return formatNumber(limit);
