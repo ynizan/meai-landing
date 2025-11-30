@@ -63,6 +63,14 @@
     applicationForm: document.getElementById('application-form'),
     applicationSuccess: document.getElementById('application-success'),
 
+    // Custom dropdown
+    contactSourceDropdown: document.getElementById('contact-source-dropdown'),
+    contactSourceHidden: document.getElementById('contact-source'),
+
+    // Plan header
+    changePlanBtn: document.getElementById('change-plan-btn'),
+    selectedTierName: document.querySelector('.selected-tier-name'),
+
     // Hidden fields
     formVariant: document.getElementById('form-variant'),
     formTier: document.getElementById('form-tier'),
@@ -120,9 +128,13 @@
    */
   function getContactLimit(tierKey, viralEnabled) {
     const tier = TIERS[tierKey];
-    if (!tier || tierKey === 'leader') return tier ? '1,000+' : '200';
+    if (!tier || tierKey === 'leader') return tier ? '1K+' : '200';
     const base = tier.baseContacts;
     const limit = viralEnabled ? Math.floor(base * 1.5) : base;
+    // Use "1K" notation for 1000+
+    if (limit >= 1000) {
+      return limit === 1000 ? '1K' : (limit / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+    }
     return formatNumber(limit);
   }
 
@@ -227,6 +239,11 @@
         limitEl.textContent = getContactLimit(cardTier, viralEnabled);
       }
     });
+
+    // Update plan header tier name
+    if (elements.selectedTierName) {
+      elements.selectedTierName.textContent = TIERS[currentTier].name;
+    }
   }
 
   function initViralToggle() {
@@ -237,6 +254,91 @@
       updatePricingCards();
       saveFormProgress();
       trackEvent(viralEnabled ? 'Viral_Toggle_On' : 'Viral_Toggle_Off');
+    });
+  }
+
+  // ==========================================================================
+  // Custom Dropdown
+  // ==========================================================================
+
+  function initCustomDropdown() {
+    const dropdown = elements.contactSourceDropdown;
+    if (!dropdown) return;
+
+    const trigger = dropdown.querySelector('.dropdown-trigger');
+    const menu = dropdown.querySelector('.dropdown-menu');
+    const items = dropdown.querySelectorAll('.dropdown-item');
+    const selectedText = dropdown.querySelector('.dropdown-selected');
+    const hiddenInput = elements.contactSourceHidden;
+
+    // Toggle dropdown
+    trigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+      trigger.setAttribute('aria-expanded', !isOpen);
+      menu.classList.toggle('open', !isOpen);
+    });
+
+    // Handle item selection
+    items.forEach(item => {
+      item.addEventListener('click', () => {
+        const value = item.dataset.value;
+        const text = item.textContent;
+
+        // Update hidden input
+        hiddenInput.value = value;
+
+        // Update display
+        selectedText.textContent = text;
+        selectedText.classList.remove('placeholder');
+
+        // Update selected state
+        items.forEach(i => i.classList.remove('selected'));
+        item.classList.add('selected');
+
+        // Close dropdown
+        trigger.setAttribute('aria-expanded', 'false');
+        menu.classList.remove('open');
+
+        // Save form progress
+        saveFormProgress();
+      });
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!dropdown.contains(e.target)) {
+        trigger.setAttribute('aria-expanded', 'false');
+        menu.classList.remove('open');
+      }
+    });
+
+    // Keyboard navigation
+    trigger.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        trigger.setAttribute('aria-expanded', 'false');
+        menu.classList.remove('open');
+      }
+    });
+  }
+
+  function setDropdownValue(value) {
+    const dropdown = elements.contactSourceDropdown;
+    if (!dropdown || !value) return;
+
+    const items = dropdown.querySelectorAll('.dropdown-item');
+    const selectedText = dropdown.querySelector('.dropdown-selected');
+    const hiddenInput = elements.contactSourceHidden;
+
+    items.forEach(item => {
+      if (item.dataset.value === value) {
+        hiddenInput.value = value;
+        selectedText.textContent = item.textContent;
+        selectedText.classList.remove('placeholder');
+        item.classList.add('selected');
+      } else {
+        item.classList.remove('selected');
+      }
     });
   }
 
@@ -296,6 +398,13 @@
       });
     }
 
+    // Change plan button -> scroll back to Phase 1
+    if (elements.changePlanBtn) {
+      elements.changePlanBtn.addEventListener('click', () => {
+        scrollToElement(elements.phase1, 20);
+        trackEvent('Change_Plan_Click');
+      });
+    }
   }
 
   // ==========================================================================
@@ -463,8 +572,8 @@
       const linkedinUrl = document.getElementById('linkedin-url');
       if (linkedinUrl && data.linkedinUrl) linkedinUrl.value = data.linkedinUrl;
 
-      const contactSource = document.getElementById('contact-source');
-      if (contactSource && data.contactSource) contactSource.value = data.contactSource;
+      // Restore custom dropdown
+      if (data.contactSource) setDropdownValue(data.contactSource);
 
       const email = document.getElementById('user-email');
       if (email && data.email) email.value = data.email;
@@ -498,6 +607,7 @@
     initSlider();
     initCheckboxes();
     initViralToggle();
+    initCustomDropdown();
     initPhaseNavigation();
     initApplicationForm();
     initFormPersistence();
