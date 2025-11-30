@@ -88,7 +88,7 @@
    * Track event with Plausible analytics
    */
   function trackEvent(eventName, props = {}) {
-    if (typeof plausible !== 'undefined') {
+    if (typeof plausible === 'function') {
       plausible(eventName, { props });
     } else {
       console.log('[Analytics]', eventName, props);
