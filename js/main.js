@@ -1,5 +1,5 @@
 /**
- * InTouch Landing Page JavaScript
+ * InTouch123 Landing Page JavaScript
  * Handles A/B variants, form interactions, analytics, and localStorage persistence
  */
 
