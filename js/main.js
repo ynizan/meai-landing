@@ -444,30 +444,31 @@
     elements.applicationForm.addEventListener('submit', async function(e) {
       e.preventDefault();
 
-      // Validate email
       const emailInput = document.getElementById('user-email');
       const emailError = document.getElementById('email-error');
-      if (!emailInput.value || !emailInput.validity.valid) {
-        emailError.textContent = 'Please enter a valid email address';
-        emailInput.focus();
-        return;
-      }
-      emailError.textContent = '';
-
-      // Populate hidden fields
-      const formData = collectFormData();
-      elements.formVariant.value = variant;
-      elements.formTier.value = currentTier;
-      elements.formContactCount.value = elements.contactSlider ? elements.contactSlider.value : '200';
-      elements.formViral.value = viralEnabled ? 'true' : 'false';
-      elements.formTimestamp.value = new Date().toISOString();
-      elements.formRelationshipTypes.value = formData.relationshipTypes;
-      elements.formPrimaryGoal.value = formData.primaryGoal;
-
-      // Submit form
-      const data = new FormData(this);
 
       try {
+        // Validate email
+        if (!emailInput.value || !emailInput.validity.valid) {
+          emailError.textContent = 'Please enter a valid email address';
+          emailInput.focus();
+          return;
+        }
+        emailError.textContent = '';
+
+        // Populate hidden fields with defensive checks
+        const formData = collectFormData();
+        if (elements.formVariant) elements.formVariant.value = variant;
+        if (elements.formTier) elements.formTier.value = currentTier;
+        if (elements.formContactCount) elements.formContactCount.value = elements.contactSlider ? elements.contactSlider.value : '200';
+        if (elements.formViral) elements.formViral.value = viralEnabled ? 'true' : 'false';
+        if (elements.formTimestamp) elements.formTimestamp.value = new Date().toISOString();
+        if (elements.formRelationshipTypes) elements.formRelationshipTypes.value = formData.relationshipTypes;
+        if (elements.formPrimaryGoal) elements.formPrimaryGoal.value = formData.primaryGoal;
+
+        // Submit form
+        const data = new FormData(this);
+
         const response = await fetch(this.action, {
           method: 'POST',
           body: data,
@@ -491,7 +492,12 @@
       } catch (error) {
         console.error('Application submission error:', error);
         if (emailError) {
-          emailError.textContent = error.message || 'Something went wrong. Please try again.';
+          // Provide more specific error messages
+          if (error.name === 'TypeError' && error.message.includes('fetch')) {
+            emailError.textContent = 'Network error. Please check your connection and try again.';
+          } else {
+            emailError.textContent = error.message || 'Something went wrong. Please try again.';
+          }
         }
       }
     });
