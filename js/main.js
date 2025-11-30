@@ -1,5 +1,5 @@
 /**
- * Me.AI Landing Page JavaScript
+ * InTouch Landing Page JavaScript
  * Handles A/B variants, form interactions, analytics, and localStorage persistence
  */
 
