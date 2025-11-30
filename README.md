@@ -1,6 +1,6 @@
-# Me.AI Landing Page
+# InTouch Landing Page
 
-A static validation landing page for Me.AI - a premium AI relationship management service. This page captures user intent and information to validate willingness to pay at $100-500/month through a phased onboarding flow.
+A static validation landing page for InTouch - a premium AI relationship management service. This page captures user intent and information to validate willingness to pay at $100-500/month through a phased onboarding flow.
 
 **Important:** This is a validation page only. No payment processing is implemented.
 
@@ -126,7 +126,7 @@ The following custom events are tracked with Plausible:
 
 | Event | Description |
 |-------|-------------|
-| `Hero_CTA_Click` | User clicks "See if Me.AI is right for you" |
+| `Hero_CTA_Click` | User clicks "See if InTouch is right for you" |
 | `Phase1_Started` | First interaction with qualification form |
 | `Phase1_Completed` | User clicks "See my plan" |
 | `Pricing_Viewed` | Pricing section becomes visible |
@@ -161,4 +161,4 @@ Tested and works in:
 
 ## License
 
-Proprietary - Me.AI
+Proprietary - InTouch
