@@ -418,17 +418,23 @@ legend.form-label {
 }
 
 .slider-ticks {
-  display: flex;
-  justify-content: space-between;
-  padding: var(--spacing-sm) 0;
+  position: relative;
+  height: 24px;
   margin-top: var(--spacing-sm);
 }
 
 .slider-ticks span {
   font-size: var(--font-size-xs);
   color: var(--text-muted);
-  position: relative;
+  position: absolute;
+  transform: translateX(-50%);
 }
+
+/* Position ticks based on actual slider values (min=50, max=2000, range=1950) */
+.slider-ticks span[data-value="100"] { left: 2.56%; }
+.slider-ticks span[data-value="250"] { left: 10.26%; }
+.slider-ticks span[data-value="500"] { left: 23.08%; }
+.slider-ticks span[data-value="1000"] { left: 48.72%; }
 
 .slider-ticks span::before {
   content: '';
