@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://meai.example.com/sitemap.xml

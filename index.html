@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO Meta Tags -->
+  <title>Me.AI - AI Relationship Manager for Executives & Investors</title>
+  <meta name="description" content="Me.AI actively manages your professional relationships so you never let important connections go cold. For VCs, founders, and executives. Starting at $100/month.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://meai.example.com/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Me.AI - Never Let a Relationship Go Cold">
+  <meta property="og:description" content="The AI relationship manager for VCs, founders, and executives. Actively nurtures your network so you don't have to.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://meai.example.com/">
+  <meta property="og:image" content="https://meai.example.com/images/og-image.png">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Me.AI - Never Let a Relationship Go Cold">
+  <meta name="twitter:description" content="The AI relationship manager for VCs, founders, and executives.">
+
+  <!-- Schema.org markup -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Me.AI",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "AI relationship manager that actively nurtures professional relationships for executives and investors.",
+    "offers": {
+      "@type": "Offer",
+      "price": "100",
+      "priceCurrency": "USD",
+      "priceValidUntil": "2025-12-31"
+    }
+  }
+  </script>
+
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- Plausible Analytics - Replace domain with actual domain -->
+  <script defer data-domain="meai.example.com" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+  <!-- Skip Link for Accessibility -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <main id="main-content">
+    <!-- PHASE 0: Hero Section -->
+    <section class="hero" id="hero">
+      <div class="container">
+        <!-- Variant A: The Awkward Moment -->
+        <div class="hero-content" data-variant="a">
+          <h1 class="hero-headline">When was the last time you reached out... just because?</h1>
+          <p class="hero-subhead">You know that moment — you need a favor, but realize you haven't shown any interest in them for 5 years. Me.AI makes sure that never happens again.</p>
+        </div>
+
+        <!-- Variant B: The Bulk Message Problem -->
+        <div class="hero-content" data-variant="b">
+          <h1 class="hero-headline">Your network is tired of hearing about your launches</h1>
+          <p class="hero-subhead">The most common way to "nurture relationships" is blasting updates about yourself. People appreciate genuine interest in them. Me.AI delivers that at scale.</p>
+        </div>
+
+        <div class="hero-cta-wrapper">
+          <button class="btn btn-primary btn-large" id="hero-cta">See if Me.AI is right for you</button>
+          <span class="badge">No credit card required</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHASE 1: Qualification -->
+    <section class="phase phase-1" id="phase-1">
+      <div class="container">
+        <h2 class="section-heading">Let's see if Me.AI is right for you</h2>
+
+        <form id="qualification-form" class="form">
+          <!-- Field 1: Contact Slider -->
+          <div class="form-group">
+            <label for="contact-count" class="form-label">How many professional relationships do you want to nurture?</label>
+            <div class="slider-container">
+              <input
+                type="range"
+                id="contact-count"
+                name="contact_count"
+                min="50"
+                max="2000"
+                step="50"
+                value="200"
+                class="slider"
+                aria-describedby="contact-count-value"
+              >
+              <div class="slider-ticks">
+                <span data-value="100">100</span>
+                <span data-value="250">250</span>
+                <span data-value="500">500</span>
+                <span data-value="1000">1,000</span>
+              </div>
+              <div class="slider-output" id="contact-count-value">
+                <span class="contact-number">200</span> contacts
+              </div>
+            </div>
+            <div class="tier-preview" id="tier-preview">
+              <span class="tier-name">Starter tier</span> · <span class="tier-price">$100/mo</span>
+            </div>
+          </div>
+
+          <!-- Field 2: Relationship Types -->
+          <div class="form-group">
+            <fieldset>
+              <legend class="form-label">What types of relationships matter most to you?</legend>
+              <div class="checkbox-group">
+                <div class="checkbox-item">
+                  <label class="checkbox-label">
+                    <input type="checkbox" name="relationship_types" value="investors">
+                    <span class="checkbox-text">Investors / LPs</span>
+                  </label>
+                  <div class="conditional-input" data-for="investors">
+                    <input type="text" name="investors_detail" placeholder="Describe your ideal LP (e.g., '$50M+ allocation capacity')">
+                  </div>
+                </div>
+
+                <div class="checkbox-item">
+                  <label class="checkbox-label">
+                    <input type="checkbox" name="relationship_types" value="portfolio">
+                    <span class="checkbox-text">Portfolio companies / founders</span>
+                  </label>
+                  <div class="conditional-input" data-for="portfolio">
+                    <input type="text" name="portfolio_detail" placeholder="What stage or type?">
+                  </div>
+                </div>
+
+                <div class="checkbox-item">
+                  <label class="checkbox-label">
+                    <input type="checkbox" name="relationship_types" value="acquirers">
+                    <span class="checkbox-text">Potential acquirers</span>
+                  </label>
+                  <div class="conditional-input" data-for="acquirers">
+                    <input type="text" name="acquirers_detail" placeholder="What criteria matter?">
+                  </div>
+                </div>
+
+                <div class="checkbox-item">
+                  <label class="checkbox-label">
+                    <input type="checkbox" name="relationship_types" value="enterprise">
+                    <span class="checkbox-text">Enterprise clients</span>
+                  </label>
+                  <div class="conditional-input" data-for="enterprise">
+                    <input type="text" name="enterprise_detail" placeholder="What industry or company size?">
+                  </div>
+                </div>
+
+                <div class="checkbox-item">
+                  <label class="checkbox-label">
+                    <input type="checkbox" name="relationship_types" value="peers">
+                    <span class="checkbox-text">Industry peers</span>
+                  </label>
+                  <div class="conditional-input" data-for="peers">
+                    <input type="text" name="peers_detail" placeholder="Which communities or roles?">
+                  </div>
+                </div>
+
+                <div class="checkbox-item">
+                  <label class="checkbox-label">
+                    <input type="checkbox" name="relationship_types" value="talent">
+                    <span class="checkbox-text">Talent pipeline</span>
+                  </label>
+                  <div class="conditional-input" data-for="talent">
+                    <input type="text" name="talent_detail" placeholder="What roles are you nurturing?">
+                  </div>
+                </div>
+
+                <div class="checkbox-item">
+                  <label class="checkbox-label">
+                    <input type="checkbox" name="relationship_types" value="other">
+                    <span class="checkbox-text">Other</span>
+                  </label>
+                  <div class="conditional-input" data-for="other">
+                    <input type="text" name="other_detail" placeholder="Describe your relationship types">
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+
+          <!-- Field 3: Primary Goal -->
+          <div class="form-group">
+            <fieldset>
+              <legend class="form-label">What's your primary goal?</legend>
+              <div class="radio-group">
+                <label class="radio-label">
+                  <input type="radio" name="primary_goal" value="deal_flow">
+                  <span class="radio-text">More deal flow</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="primary_goal" value="stronger_relationships">
+                  <span class="radio-text">Stronger existing relationships</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="primary_goal" value="never_miss">
+                  <span class="radio-text">Never miss important moments</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="primary_goal" value="save_time">
+                  <span class="radio-text">Save time on relationship maintenance</span>
+                </label>
+              </div>
+            </fieldset>
+          </div>
+
+          <button type="button" class="btn btn-primary" id="phase-1-cta">See my plan</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- PHASE 2: Pricing & Commitment -->
+    <section class="phase phase-2" id="phase-2">
+      <div class="container">
+        <h2 class="section-heading">Your Me.AI Plan</h2>
+
+        <!-- Pricing Cards -->
+        <div class="pricing-grid">
+          <div class="pricing-card" data-tier="starter">
+            <div class="pricing-header">
+              <h3 class="pricing-tier-name">Starter</h3>
+              <p class="pricing-contacts">Up to <span class="contact-limit">200</span> contacts</p>
+            </div>
+            <div class="pricing-body">
+              <div class="pricing-price">
+                <span class="price-regular">$100/mo</span>
+                <span class="price-founding">$70<span class="price-period">/mo</span></span>
+              </div>
+              <span class="founding-badge">Founding Member</span>
+            </div>
+          </div>
+
+          <div class="pricing-card" data-tier="professional">
+            <div class="pricing-header">
+              <h3 class="pricing-tier-name">Professional</h3>
+              <p class="pricing-contacts">Up to <span class="contact-limit">500</span> contacts</p>
+            </div>
+            <div class="pricing-body">
+              <div class="pricing-price">
+                <span class="price-regular">$250/mo</span>
+                <span class="price-founding">$175<span class="price-period">/mo</span></span>
+              </div>
+              <span class="founding-badge">Founding Member</span>
+            </div>
+          </div>
+
+          <div class="pricing-card" data-tier="executive">
+            <div class="pricing-header">
+              <h3 class="pricing-tier-name">Executive</h3>
+              <p class="pricing-contacts">Up to <span class="contact-limit">1,000</span> contacts</p>
+            </div>
+            <div class="pricing-body">
+              <div class="pricing-price">
+                <span class="price-regular">$500/mo</span>
+                <span class="price-founding">$350<span class="price-period">/mo</span></span>
+              </div>
+              <span class="founding-badge">Founding Member</span>
+            </div>
+          </div>
+
+          <div class="pricing-card" data-tier="enterprise">
+            <div class="pricing-header">
+              <h3 class="pricing-tier-name">Enterprise</h3>
+              <p class="pricing-contacts">1,000+ contacts</p>
+            </div>
+            <div class="pricing-body">
+              <div class="pricing-price">
+                <span class="price-regular">Custom</span>
+                <span class="price-founding">Let's talk</span>
+              </div>
+              <span class="founding-badge">Custom Pricing</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Viral Upsell -->
+        <div class="viral-upsell">
+          <label class="toggle-label">
+            <input type="checkbox" id="viral-toggle" name="viral_opted_in">
+            <span class="toggle-switch"></span>
+            <span class="toggle-text">Let my AI occasionally introduce others to Me.AI — get 50% more contacts in your plan</span>
+          </label>
+          <p class="viral-note">Your AI will naturally mention Me.AI when relevant. You stay in control.</p>
+        </div>
+
+        <!-- Two Paths -->
+        <div class="commitment-actions">
+          <button class="btn btn-primary btn-large" id="reserve-cta">Reserve my spot as Founding Member</button>
+          <button class="btn-link" id="need-time-btn">I need more time to decide</button>
+        </div>
+
+        <!-- Waitlist Form (hidden by default) -->
+        <div class="waitlist-form-wrapper" id="waitlist-wrapper">
+          <form
+            id="waitlist-form"
+            action="https://formspree.io/f/YOUR_WAITLIST_FORM_ID"
+            method="POST"
+            class="waitlist-form"
+          >
+            <input type="hidden" name="hero_variant" id="waitlist-variant">
+            <input type="hidden" name="timestamp" id="waitlist-timestamp">
+            <div class="waitlist-input-group">
+              <label for="waitlist-email" class="sr-only">Email address</label>
+              <input
+                type="email"
+                id="waitlist-email"
+                name="email"
+                placeholder="Enter your email"
+                required
+                aria-describedby="waitlist-error"
+              >
+              <button type="submit" class="btn btn-secondary">Keep me posted</button>
+            </div>
+            <span class="form-error" id="waitlist-error" role="alert"></span>
+          </form>
+          <div class="waitlist-success" id="waitlist-success">
+            Thanks! We'll follow up soon.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHASE 3: Onboarding Details -->
+    <section class="phase phase-3" id="phase-3">
+      <div class="container">
+        <h2 class="section-heading">Almost there — help us prepare your account</h2>
+
+        <form
+          id="reservation-form"
+          action="https://formspree.io/f/YOUR_FULL_FORM_ID"
+          method="POST"
+          class="form"
+        >
+          <!-- Hidden fields -->
+          <input type="hidden" name="hero_variant" id="form-variant">
+          <input type="hidden" name="selected_tier" id="form-tier">
+          <input type="hidden" name="contact_count" id="form-contact-count">
+          <input type="hidden" name="viral_opted_in" id="form-viral">
+          <input type="hidden" name="timestamp" id="form-timestamp">
+          <input type="hidden" name="relationship_types" id="form-relationship-types">
+          <input type="hidden" name="primary_goal" id="form-primary-goal">
+
+          <div class="form-group">
+            <label for="linkedin-url" class="form-label">LinkedIn profile URL</label>
+            <input
+              type="url"
+              id="linkedin-url"
+              name="linkedin_url"
+              placeholder="linkedin.com/in/yourname"
+              class="form-input"
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="contact-source" class="form-label">Where do you keep your contacts?</label>
+            <select id="contact-source" name="contact_source" class="form-select" required>
+              <option value="">Select an option</option>
+              <option value="google_contacts">Google Contacts</option>
+              <option value="icloud">iCloud</option>
+              <option value="salesforce">Salesforce</option>
+              <option value="hubspot">HubSpot</option>
+              <option value="csv">CSV / spreadsheet</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="current-crm" class="form-label">Current CRM, if any <span class="optional">(optional)</span></label>
+            <input
+              type="text"
+              id="current-crm"
+              name="current_crm"
+              placeholder="e.g., Salesforce, HubSpot, Affinity..."
+              class="form-input"
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="user-email" class="form-label">Your email</label>
+            <input
+              type="email"
+              id="user-email"
+              name="email"
+              required
+              class="form-input"
+              aria-describedby="email-error"
+            >
+            <span class="form-error" id="email-error" role="alert"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="additional-notes" class="form-label">Anything else about your relationship goals? <span class="optional">(optional)</span></label>
+            <textarea
+              id="additional-notes"
+              name="additional_notes"
+              rows="3"
+              class="form-textarea"
+              placeholder="Tell us more about what you're looking for..."
+            ></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-large" id="final-submit">Complete my reservation</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
