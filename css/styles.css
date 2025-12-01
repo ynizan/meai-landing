@@ -1202,3 +1202,5 @@ legend.form-label {
 .mb-lg {
   margin-bottom: var(--spacing-lg);
 }
+
+/* Cache bust - 2025-12-01 */
