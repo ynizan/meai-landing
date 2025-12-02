@@ -27,6 +27,8 @@
   let viralEnabled = false;
   let variant = 'a';
   let activeSolutionSlide = 0;
+  let solutionAutoplayId = null;
+  const SOLUTION_AUTOPLAY_DELAY = 6500;
 
   // ==========================================================================
   // DOM Elements
@@ -690,22 +692,53 @@
     }
   }
 
+  function startSolutionAutoplay() {
+    if (!elements.solutionRows.length) return;
+    stopSolutionAutoplay();
+    solutionAutoplayId = window.setInterval(() => {
+      setSolutionSlide(activeSolutionSlide + 1);
+    }, SOLUTION_AUTOPLAY_DELAY);
+  }
+
+  function stopSolutionAutoplay() {
+    if (solutionAutoplayId) {
+      clearInterval(solutionAutoplayId);
+      solutionAutoplayId = null;
+    }
+  }
+
+  function restartSolutionAutoplay() {
+    stopSolutionAutoplay();
+    startSolutionAutoplay();
+  }
+
   function initSolutionCarousel() {
     if (!elements.solutionRows.length) return;
 
     setSolutionSlide(0);
+    startSolutionAutoplay();
 
     elements.solutionNavs.forEach(nav => {
       nav.addEventListener('click', () => {
         const direction = nav.dataset.solutionNav;
         setSolutionSlide(activeSolutionSlide + (direction === 'next' ? 1 : -1));
+        restartSolutionAutoplay();
       });
     });
 
     elements.solutionDots.forEach((dot, idx) => {
-      dot.addEventListener('click', () => setSolutionSlide(idx));
+      dot.addEventListener('click', () => {
+        setSolutionSlide(idx);
+        restartSolutionAutoplay();
+      });
       dot.addEventListener('mouseenter', () => setSolutionSlide(idx));
     });
+
+    const carousel = document.querySelector('.solution-carousel');
+    if (carousel) {
+      carousel.addEventListener('mouseenter', stopSolutionAutoplay);
+      carousel.addEventListener('mouseleave', startSolutionAutoplay);
+    }
   }
 
   // ==========================================================================
