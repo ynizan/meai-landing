@@ -621,6 +621,66 @@
   }
 
   // ==========================================================================
+  // Message Card Tooltips (Touch Device Support)
+  // ==========================================================================
+
+  function initMessageCardTooltips() {
+    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+    if (isTouch) {
+      const messageBubbles = document.querySelectorAll('.message-bubble');
+
+      messageBubbles.forEach(bubble => {
+        bubble.addEventListener('click', (e) => {
+          e.stopPropagation();
+
+          // Toggle this tooltip
+          const wasVisible = bubble.classList.contains('tooltip-visible');
+
+          // Close all other tooltips
+          document.querySelectorAll('.message-bubble.tooltip-visible').forEach(other => {
+            other.classList.remove('tooltip-visible');
+          });
+
+          // Toggle current if it wasn't visible
+          if (!wasVisible) {
+            bubble.classList.add('tooltip-visible');
+          }
+        });
+      });
+
+      // Close tooltips when clicking outside
+      document.addEventListener('click', () => {
+        document.querySelectorAll('.message-bubble.tooltip-visible').forEach(bubble => {
+          bubble.classList.remove('tooltip-visible');
+        });
+      });
+    }
+  }
+
+  // ==========================================================================
+  // FAQ Accordion
+  // ==========================================================================
+
+  function initFAQ() {
+    const faqQuestions = document.querySelectorAll('.faq-question');
+
+    faqQuestions.forEach(question => {
+      question.addEventListener('click', () => {
+        const isExpanded = question.getAttribute('aria-expanded') === 'true';
+
+        // Close all other questions
+        faqQuestions.forEach(q => {
+          q.setAttribute('aria-expanded', 'false');
+        });
+
+        // Toggle current question
+        question.setAttribute('aria-expanded', !isExpanded);
+      });
+    });
+  }
+
+  // ==========================================================================
   // Initialize
   // ==========================================================================
 
@@ -634,6 +694,8 @@
     initPhaseNavigation();
     initApplicationForm();
     initFormPersistence();
+    initMessageCardTooltips();
+    initFAQ();
 
     // Update pricing cards initially
     updatePricingCards();
