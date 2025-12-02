@@ -1263,6 +1263,12 @@ legend.form-label {
   overflow-x: hidden;
   overflow-y: visible;
   padding-bottom: var(--spacing-lg);
+  scrollbar-width: none;
+  overscroll-behavior: contain;
+}
+
+.solution-carousel::-webkit-scrollbar {
+  display: none;
 }
 
 .solution-carousel__track {
