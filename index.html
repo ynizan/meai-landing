@@ -91,70 +91,89 @@
         <!-- Solution Visualization: From broadcast to genuine connection -->
         <div class="solution-viz">
           <div class="solution-viz__header">
-            <span class="solution-viz__label solution-viz__label--bad">What most people send</span>
-            <span class="solution-viz__label solution-viz__label--good">What InTouch sends for you</span>
+            <div class="solution-viz__column-header solution-viz__column-header--bad">
+              <span class="column-header__label">Stop spamming your contacts</span>
+            </div>
+            <div class="solution-viz__column-header solution-viz__column-header--good">
+              <span class="column-header__label">Send messages that matter with <strong>InTouch</strong></span>
+            </div>
           </div>
 
           <!-- Row 1: Birthday -->
           <div class="solution-viz__row">
-            <div class="message-card message-card--bad message-card--imessage" data-tooltip-type="bad">
-              <div class="message-card__channel">
-                <span class="channel-icon">📱</span>
-                <span class="channel-name">iMessage</span>
+            <div class="message-bubble message-bubble--bad message-bubble--imessage">
+              <div class="message-bubble__content">Happy holidays! 🎄</div>
+              <div class="message-bubble__meta">Sent to 500 contacts</div>
+              <div class="tooltip tooltip--bad">
+                <span class="tooltip__title">The problem</span>
+                Generic · Sent to everyone · Low response rate
               </div>
-              <div class="message-card__content">Happy holidays! 🎄</div>
-              <div class="tooltip">Generic · Sent to everyone · Low response rate</div>
             </div>
-            <div class="solution-viz__arrow">→</div>
-            <div class="message-card message-card--good message-card--imessage" data-tooltip-type="good">
-              <div class="message-card__channel">
-                <span class="channel-icon">📱</span>
-                <span class="channel-name">iMessage</span>
+            <div class="solution-viz__arrow" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </div>
+            <div class="message-bubble message-bubble--good message-bubble--imessage">
+              <div class="message-bubble__content">Happy birthday, Sarah! Hope the new role at Sequoia is treating you well.</div>
+              <div class="message-bubble__meta">iMessage · Delivered</div>
+              <div class="tooltip tooltip--good">
+                <span class="tooltip__title">How InTouch helps</span>
+                Cross-references Facebook and LinkedIn to find birthday dates, then sends at the right moment
               </div>
-              <div class="message-card__content">Happy birthday, Sarah! Hope the new role at Sequoia is treating you well.</div>
-              <div class="tooltip">InTouch cross-references Facebook and LinkedIn to find birthday dates, then sends at the right moment</div>
             </div>
           </div>
 
           <!-- Row 2: Fundraising -->
           <div class="solution-viz__row">
-            <div class="message-card message-card--bad message-card--email" data-tooltip-type="bad">
-              <div class="message-card__channel">
-                <span class="channel-icon">✉️</span>
-                <span class="channel-name">Email</span>
+            <div class="message-bubble message-bubble--bad message-bubble--email">
+              <div class="message-bubble__subject">My Year in Review: Companies I Invested In</div>
+              <div class="message-bubble__content">Excited to share the companies I invested in this year...</div>
+              <div class="message-bubble__meta">Bulk email · 12% open rate</div>
+              <div class="tooltip tooltip--bad">
+                <span class="tooltip__title">The problem</span>
+                About you, not them · Broadcast to whole list
               </div>
-              <div class="message-card__content">Excited to share the companies I invested in this year...</div>
-              <div class="tooltip">About you, not them · Broadcast to whole list</div>
             </div>
-            <div class="solution-viz__arrow">→</div>
-            <div class="message-card message-card--good message-card--email" data-tooltip-type="good">
-              <div class="message-card__channel">
-                <span class="channel-icon">✉️</span>
-                <span class="channel-name">Email</span>
+            <div class="solution-viz__arrow" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </div>
+            <div class="message-bubble message-bubble--good message-bubble--email">
+              <div class="message-bubble__subject">Congrats on the Series A!</div>
+              <div class="message-bubble__content">Heard you just raised your Series A — congrats! Let me know if I can help with intros.</div>
+              <div class="message-bubble__meta">Personal email · Sent just now</div>
+              <div class="tooltip tooltip--good">
+                <span class="tooltip__title">How InTouch helps</span>
+                Scans news and funding announcements to trigger timely, relevant messages
               </div>
-              <div class="message-card__content">Heard you just raised your Series A — congrats! Let me know if I can help with intros.</div>
-              <div class="tooltip">InTouch scans news and funding announcements to trigger timely, relevant messages</div>
             </div>
           </div>
 
           <!-- Row 3: Promotion (cross-channel) -->
           <div class="solution-viz__row">
-            <div class="message-card message-card--bad message-card--email" data-tooltip-type="bad">
-              <div class="message-card__channel">
-                <span class="channel-icon">✉️</span>
-                <span class="channel-name">Email</span>
+            <div class="message-bubble message-bubble--bad message-bubble--email">
+              <div class="message-bubble__subject">We just shipped something new!</div>
+              <div class="message-bubble__content">Check out our latest feature release...</div>
+              <div class="message-bubble__meta">Newsletter · Unsubscribe rate: 8%</div>
+              <div class="tooltip tooltip--bad">
+                <span class="tooltip__title">The problem</span>
+                Self-promotional · No personalization · Easy to ignore
               </div>
-              <div class="message-card__content">We just released a new feature!</div>
-              <div class="tooltip">Self-promotional · No personalization · Easy to ignore</div>
             </div>
-            <div class="solution-viz__arrow">→</div>
-            <div class="message-card message-card--good message-card--instagram" data-tooltip-type="good">
-              <div class="message-card__channel">
-                <span class="channel-icon">📸</span>
-                <span class="channel-name">Instagram DM</span>
+            <div class="solution-viz__arrow" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </div>
+            <div class="message-bubble message-bubble--good message-bubble--instagram">
+              <div class="message-bubble__content">Saw you got promoted to VP — what's the new role like? Would love to catch up.</div>
+              <div class="message-bubble__meta">Instagram DM · Seen</div>
+              <div class="tooltip tooltip--good">
+                <span class="tooltip__title">How InTouch helps</span>
+                LinkedIn activity triggers an Instagram DM — connecting across their world
               </div>
-              <div class="message-card__content">Saw you got promoted to VP — what's the new role like? Would love to catch up.</div>
-              <div class="tooltip">LinkedIn activity triggers an Instagram DM — making them feel connected across their world</div>
             </div>
           </div>
 

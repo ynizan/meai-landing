@@ -628,31 +628,31 @@
     const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
     if (isTouch) {
-      const messageCards = document.querySelectorAll('.message-card');
+      const messageBubbles = document.querySelectorAll('.message-bubble');
 
-      messageCards.forEach(card => {
-        card.addEventListener('click', (e) => {
+      messageBubbles.forEach(bubble => {
+        bubble.addEventListener('click', (e) => {
           e.stopPropagation();
 
           // Toggle this tooltip
-          const wasVisible = card.classList.contains('tooltip-visible');
+          const wasVisible = bubble.classList.contains('tooltip-visible');
 
           // Close all other tooltips
-          document.querySelectorAll('.message-card.tooltip-visible').forEach(other => {
+          document.querySelectorAll('.message-bubble.tooltip-visible').forEach(other => {
             other.classList.remove('tooltip-visible');
           });
 
           // Toggle current if it wasn't visible
           if (!wasVisible) {
-            card.classList.add('tooltip-visible');
+            bubble.classList.add('tooltip-visible');
           }
         });
       });
 
       // Close tooltips when clicking outside
       document.addEventListener('click', () => {
-        document.querySelectorAll('.message-card.tooltip-visible').forEach(card => {
-          card.classList.remove('tooltip-visible');
+        document.querySelectorAll('.message-bubble.tooltip-visible').forEach(bubble => {
+          bubble.classList.remove('tooltip-visible');
         });
       });
     }
