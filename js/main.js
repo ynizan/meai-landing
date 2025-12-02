@@ -26,6 +26,7 @@
   let currentTier = 'starter';
   let viralEnabled = false;
   let variant = 'a';
+  let activeSolutionSlide = 0;
 
   // ==========================================================================
   // DOM Elements
@@ -77,7 +78,13 @@
     formViral: document.getElementById('form-viral'),
     formTimestamp: document.getElementById('form-timestamp'),
     formRelationshipTypes: document.getElementById('form-relationship-types'),
-    formPrimaryGoal: document.getElementById('form-primary-goal')
+    formPrimaryGoal: document.getElementById('form-primary-goal'),
+
+    // Solution carousel
+    solutionRows: document.querySelectorAll('.solution-viz__row'),
+    solutionDots: document.querySelectorAll('.solution-carousel__dot'),
+    solutionTrack: document.querySelector('.solution-carousel__track'),
+    solutionNavs: document.querySelectorAll('[data-solution-nav]')
   };
 
   // ==========================================================================
@@ -659,6 +666,49 @@
   }
 
   // ==========================================================================
+  // Solution Carousel
+  // ==========================================================================
+
+  function setSolutionSlide(index) {
+    const total = elements.solutionRows.length;
+    if (!total) return;
+
+    activeSolutionSlide = (index + total) % total;
+
+    elements.solutionRows.forEach((row, idx) => {
+      row.classList.toggle('is-active', idx === activeSolutionSlide);
+    });
+
+    elements.solutionDots.forEach((dot, idx) => {
+      const isActive = idx === activeSolutionSlide;
+      dot.classList.toggle('is-active', isActive);
+      dot.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    });
+
+    if (elements.solutionTrack) {
+      elements.solutionTrack.style.transform = `translateX(-${activeSolutionSlide * 100}%)`;
+    }
+  }
+
+  function initSolutionCarousel() {
+    if (!elements.solutionRows.length) return;
+
+    setSolutionSlide(0);
+
+    elements.solutionNavs.forEach(nav => {
+      nav.addEventListener('click', () => {
+        const direction = nav.dataset.solutionNav;
+        setSolutionSlide(activeSolutionSlide + (direction === 'next' ? 1 : -1));
+      });
+    });
+
+    elements.solutionDots.forEach((dot, idx) => {
+      dot.addEventListener('click', () => setSolutionSlide(idx));
+      dot.addEventListener('mouseenter', () => setSolutionSlide(idx));
+    });
+  }
+
+  // ==========================================================================
   // FAQ Accordion
   // ==========================================================================
 
@@ -695,6 +745,7 @@
     initApplicationForm();
     initFormPersistence();
     initMessageCardTooltips();
+    initSolutionCarousel();
     initFAQ();
 
     // Update pricing cards initially
