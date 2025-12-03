@@ -26,9 +26,6 @@
   let currentTier = 'starter';
   let viralEnabled = false;
   let variant = 'a';
-  let activeSolutionSlide = 0;
-  let solutionAutoplayId = null;
-  const SOLUTION_AUTOPLAY_DELAY = 6500;
 
   // ==========================================================================
   // DOM Elements
@@ -80,13 +77,7 @@
     formViral: document.getElementById('form-viral'),
     formTimestamp: document.getElementById('form-timestamp'),
     formRelationshipTypes: document.getElementById('form-relationship-types'),
-    formPrimaryGoal: document.getElementById('form-primary-goal'),
-
-    // Solution carousel
-    solutionRows: document.querySelectorAll('.solution-viz__row'),
-    solutionDots: document.querySelectorAll('.solution-carousel__dot'),
-    solutionTrack: document.querySelector('.solution-carousel__track'),
-    solutionNavs: document.querySelectorAll('[data-solution-nav]')
+    formPrimaryGoal: document.getElementById('form-primary-goal')
   };
 
   // ==========================================================================
@@ -630,140 +621,6 @@
   }
 
   // ==========================================================================
-  // Message Card Tooltips (Touch Device Support)
-  // ==========================================================================
-
-  function initMessageCardTooltips() {
-    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-
-    if (isTouch) {
-      const messageCards = document.querySelectorAll('.message-card');
-
-      messageCards.forEach(card => {
-        card.addEventListener('click', (e) => {
-          e.stopPropagation();
-
-          // Toggle this tooltip
-          const wasVisible = card.classList.contains('tooltip-visible');
-
-          // Close all other tooltips
-          document.querySelectorAll('.message-card.tooltip-visible').forEach(other => {
-            other.classList.remove('tooltip-visible');
-          });
-
-          // Toggle current if it wasn't visible
-          if (!wasVisible) {
-            card.classList.add('tooltip-visible');
-          }
-        });
-      });
-
-      // Close tooltips when clicking outside
-      document.addEventListener('click', () => {
-        document.querySelectorAll('.message-card.tooltip-visible').forEach(card => {
-          card.classList.remove('tooltip-visible');
-        });
-      });
-    }
-  }
-
-  // ==========================================================================
-  // Solution Carousel
-  // ==========================================================================
-
-  function setSolutionSlide(index) {
-    const total = elements.solutionRows.length;
-    if (!total) return;
-
-    activeSolutionSlide = (index + total) % total;
-
-    elements.solutionRows.forEach((row, idx) => {
-      row.classList.toggle('is-active', idx === activeSolutionSlide);
-    });
-
-    elements.solutionDots.forEach((dot, idx) => {
-      const isActive = idx === activeSolutionSlide;
-      dot.classList.toggle('is-active', isActive);
-      dot.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-    });
-
-    if (elements.solutionTrack) {
-      elements.solutionTrack.style.transform = `translateX(-${activeSolutionSlide * 100}%)`;
-    }
-  }
-
-  function startSolutionAutoplay() {
-    if (!elements.solutionRows.length) return;
-    stopSolutionAutoplay();
-    solutionAutoplayId = window.setInterval(() => {
-      setSolutionSlide(activeSolutionSlide + 1);
-    }, SOLUTION_AUTOPLAY_DELAY);
-  }
-
-  function stopSolutionAutoplay() {
-    if (solutionAutoplayId) {
-      clearInterval(solutionAutoplayId);
-      solutionAutoplayId = null;
-    }
-  }
-
-  function restartSolutionAutoplay() {
-    stopSolutionAutoplay();
-    startSolutionAutoplay();
-  }
-
-  function initSolutionCarousel() {
-    if (!elements.solutionRows.length) return;
-
-    setSolutionSlide(0);
-    startSolutionAutoplay();
-
-    elements.solutionNavs.forEach(nav => {
-      nav.addEventListener('click', () => {
-        const direction = nav.dataset.solutionNav;
-        setSolutionSlide(activeSolutionSlide + (direction === 'next' ? 1 : -1));
-        restartSolutionAutoplay();
-      });
-    });
-
-    elements.solutionDots.forEach((dot, idx) => {
-      dot.addEventListener('click', () => {
-        setSolutionSlide(idx);
-        restartSolutionAutoplay();
-      });
-      dot.addEventListener('mouseenter', () => setSolutionSlide(idx));
-    });
-
-    const carousel = document.querySelector('.solution-carousel');
-    if (carousel) {
-      carousel.addEventListener('mouseenter', stopSolutionAutoplay);
-      carousel.addEventListener('mouseleave', startSolutionAutoplay);
-    }
-  }
-
-  // ==========================================================================
-  // FAQ Accordion
-  // ==========================================================================
-
-  function initFAQ() {
-    const faqQuestions = document.querySelectorAll('.faq-question');
-
-    faqQuestions.forEach(question => {
-      question.addEventListener('click', () => {
-        const isExpanded = question.getAttribute('aria-expanded') === 'true';
-
-        // Close all other questions
-        faqQuestions.forEach(q => {
-          q.setAttribute('aria-expanded', 'false');
-        });
-
-        // Toggle current question
-        question.setAttribute('aria-expanded', !isExpanded);
-      });
-    });
-  }
-
-  // ==========================================================================
   // Initialize
   // ==========================================================================
 
@@ -777,9 +634,6 @@
     initPhaseNavigation();
     initApplicationForm();
     initFormPersistence();
-    initMessageCardTooltips();
-    initSolutionCarousel();
-    initFAQ();
 
     // Update pricing cards initially
     updatePricingCards();
