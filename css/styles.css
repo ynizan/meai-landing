@@ -13,6 +13,9 @@
   --imessage-blue: #1B74F4;
   --imessage-blue-dark: #0F5BD7;
   --imessage-gray: #E5E5EA;
+  --instagram-orange: #f58529;
+  --instagram-pink: #f91880;
+  --instagram-purple: #8a3ab9;
 
   /* Neutrals */
   --color-white: #FFFFFF;
@@ -1533,19 +1536,43 @@ legend.form-label {
 }
 
 .message-card--instagram {
-  background: var(--bg-secondary);
-  border-color: var(--accent);
+  background: linear-gradient(135deg,
+      var(--instagram-orange) 0%,
+      var(--instagram-pink) 45%,
+      var(--instagram-purple) 100%);
+  color: var(--color-white);
+  border-color: transparent;
+  box-shadow: 0 18px 48px rgba(249, 24, 128, 0.35);
+}
+
+.message-card--bad.message-card--instagram {
+  background: linear-gradient(135deg, #3a3a3a 0%, #2a2a2a 100%);
   color: var(--text-primary);
-  box-shadow: 0 16px 40px rgba(13, 13, 13, 0.45);
+  border-color: var(--border);
+  box-shadow: none;
 }
 
 .message-card--instagram .channel-name {
-  color: var(--accent);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.message-card--bad.message-card--instagram .channel-name {
+  color: var(--text-secondary);
 }
 
 .message-card--instagram .message-card__sender,
 .message-card--instagram .message-card__content p {
-  color: var(--text-primary);
+  color: inherit;
+}
+
+.message-card--instagram .message-card__sender {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fdf7ff;
+}
+
+.message-card--bad.message-card--instagram .message-card__sender {
+  background: rgba(13, 13, 13, 0.08);
+  color: var(--text-secondary);
 }
 
 /* Tooltips */
