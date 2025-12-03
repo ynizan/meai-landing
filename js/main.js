@@ -621,6 +621,164 @@
   }
 
   // ==========================================================================
+  // Carousel
+  // ==========================================================================
+
+  function initCarousel() {
+    const container = document.querySelector('.carousel-container');
+    if (!container) return;
+
+    const track = container.querySelector('.carousel-track');
+    const slides = container.querySelectorAll('.carousel-slide');
+    const dots = container.querySelectorAll('.dot');
+    const prevBtn = container.querySelector('.carousel-arrow.prev');
+    const nextBtn = container.querySelector('.carousel-arrow.next');
+
+    if (!track || slides.length === 0) return;
+
+    let currentIndex = 0;
+    const slideCount = slides.length;
+    let autoPlayInterval = null;
+    const autoPlayDelay = 6500; // 6.5 seconds
+    let pauseTimeout = null;
+    let isPaused = false;
+
+    function updateSlide() {
+      // Move track
+      track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+      // Update dots
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentIndex);
+      });
+    }
+
+    function goTo(index) {
+      currentIndex = index;
+      updateSlide();
+      pauseTemporarily();
+    }
+
+    function prev() {
+      currentIndex = (currentIndex - 1 + slideCount) % slideCount;
+      updateSlide();
+      pauseTemporarily();
+    }
+
+    function next() {
+      currentIndex = (currentIndex + 1) % slideCount;
+      updateSlide();
+    }
+
+    function startAutoPlay() {
+      autoPlayInterval = setInterval(() => {
+        if (!isPaused) {
+          next();
+        }
+      }, autoPlayDelay);
+    }
+
+    function pause() {
+      isPaused = true;
+    }
+
+    function resume() {
+      isPaused = false;
+    }
+
+    function pauseTemporarily() {
+      // Pause for 10 seconds after manual interaction
+      pause();
+      clearTimeout(pauseTimeout);
+      pauseTimeout = setTimeout(() => {
+        resume();
+      }, 10000);
+    }
+
+    // Button listeners
+    if (prevBtn) {
+      prevBtn.addEventListener('click', prev);
+    }
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        next();
+        pauseTemporarily();
+      });
+    }
+
+    // Dot listeners
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => goTo(index));
+    });
+
+    // Pause on hover
+    container.addEventListener('mouseenter', pause);
+    container.addEventListener('mouseleave', resume);
+
+    // Touch/swipe support
+    let startX = 0;
+    let endX = 0;
+
+    container.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+    }, { passive: true });
+
+    container.addEventListener('touchend', (e) => {
+      endX = e.changedTouches[0].clientX;
+      const diff = startX - endX;
+
+      if (Math.abs(diff) > 50) { // Minimum swipe distance
+        if (diff > 0) {
+          next();
+        } else {
+          prev();
+        }
+        pauseTemporarily();
+      }
+    }, { passive: true });
+
+    // Start auto-play
+    startAutoPlay();
+
+    // Initialize
+    updateSlide();
+  }
+
+  // ==========================================================================
+  // FAQ Accordion
+  // ==========================================================================
+
+  function initFAQ() {
+    const faqItems = document.querySelectorAll('.faq-item');
+    if (faqItems.length === 0) return;
+
+    faqItems.forEach(item => {
+      const question = item.querySelector('.faq-question');
+      if (!question) return;
+
+      question.addEventListener('click', () => {
+        const isOpen = item.classList.contains('open');
+        const wasExpanded = question.getAttribute('aria-expanded') === 'true';
+
+        // Close all other items
+        faqItems.forEach(otherItem => {
+          otherItem.classList.remove('open');
+          const otherQuestion = otherItem.querySelector('.faq-question');
+          if (otherQuestion) {
+            otherQuestion.setAttribute('aria-expanded', 'false');
+          }
+        });
+
+        // Toggle current item
+        if (!isOpen) {
+          item.classList.add('open');
+          question.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+  }
+
+  // ==========================================================================
   // Initialize
   // ==========================================================================
 
@@ -634,6 +792,8 @@
     initPhaseNavigation();
     initApplicationForm();
     initFormPersistence();
+    initCarousel();
+    initFAQ();
 
     // Update pricing cards initially
     updatePricingCards();
