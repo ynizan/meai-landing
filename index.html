@@ -104,83 +104,97 @@
           </div>
 
           <div class="carousel-container">
-            <div class="carousel-track">
-              <!-- Slide 1: Life milestone -->
-              <div class="carousel-slide" data-index="0">
-                <div class="slide-header">
-                  <span class="trigger-label">Life milestone</span>
-                  <span class="comparison-subtitle">Generic blast vs. personal birthday note</span>
-                </div>
-                <div class="message-comparison">
-                  <div class="message-card before imessage">
-                    <div class="channel-label"><span class="channel-icon">💬</span> iMessage</div>
-                    <div class="message-bubble">
-                      <span class="sender-badge">You</span>
-                      <p class="message-text">Happy holidays! 🎄</p>
+            <div class="carousel-wrapper">
+              <div class="carousel-track">
+                <!-- Slide 1: Life milestone -->
+                <div class="carousel-slide" data-index="0">
+                  <div class="slide-header">
+                    <span class="trigger-label">Life milestone</span>
+                    <span class="comparison-subtitle">Generic blast vs. personal birthday note</span>
+                  </div>
+                  <div class="message-comparison">
+                    <div class="message-card-wrapper">
+                      <div class="message-card before imessage" data-tooltip="Generic holiday blast sent to your entire contact list. No personalization, no context.">
+                        <div class="channel-label"><span class="channel-icon">💬</span> iMessage</div>
+                        <div class="message-bubble">
+                          <span class="sender-badge">You</span>
+                          <p class="message-text">Happy holidays! 🎄</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="comparison-arrow">→</div>
+                    <div class="message-card-wrapper">
+                      <div class="message-card after imessage" data-tooltip="InTouch detected Sarah's birthday from her calendar and her recent job change at Sequoia from LinkedIn.">
+                        <div class="checkmark">✓</div>
+                        <div class="channel-label"><span class="channel-icon">💬</span> iMessage</div>
+                        <div class="message-bubble">
+                          <span class="sender-badge">You</span>
+                          <p class="message-text">Happy birthday, Sarah! Hope the new role at Sequoia is treating you well.</p>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div class="comparison-arrow">→</div>
-                  <div class="message-card after imessage">
-                    <div class="checkmark">✓</div>
-                    <div class="channel-label"><span class="channel-icon">💬</span> iMessage</div>
-                    <div class="message-bubble">
-                      <span class="sender-badge">You</span>
-                      <p class="message-text">Happy birthday, Sarah! Hope the new role at Sequoia is treating you well.</p>
-                    </div>
-                  </div>
                 </div>
-              </div>
 
-              <!-- Slide 2: Funding announcement -->
-              <div class="carousel-slide" data-index="1">
-                <div class="slide-header">
-                  <span class="trigger-label">Funding announcement</span>
-                  <span class="comparison-subtitle">Self-promotion vs. support</span>
-                </div>
-                <div class="message-comparison">
-                  <div class="message-card before email">
-                    <div class="channel-label"><span class="channel-icon">✉️</span> Email</div>
-                    <div class="email-content">
-                      <div class="email-field"><span class="email-label">FROM</span><span class="email-value">You</span></div>
-                      <div class="email-field"><span class="email-label">SUBJECT</span><span class="email-value">Year-end portfolio news</span></div>
-                      <p class="message-text">Excited to share the companies I invested in this year...</p>
+                <!-- Slide 2: Funding announcement -->
+                <div class="carousel-slide" data-index="1">
+                  <div class="slide-header">
+                    <span class="trigger-label">Funding announcement</span>
+                    <span class="comparison-subtitle">Self-promotion vs. support</span>
+                  </div>
+                  <div class="message-comparison">
+                    <div class="message-card-wrapper">
+                      <div class="message-card before email" data-tooltip="Self-promotional newsletter about your own portfolio. Recipients feel like they're on a mailing list.">
+                        <div class="channel-label"><span class="channel-icon">✉️</span> Email</div>
+                        <div class="email-content">
+                          <div class="email-field"><span class="email-label">FROM</span><span class="email-value">You</span></div>
+                          <div class="email-field"><span class="email-label">SUBJECT</span><span class="email-value">Year-end portfolio news</span></div>
+                          <p class="message-text">Excited to share the companies I invested in this year...</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="comparison-arrow">→</div>
+                    <div class="message-card-wrapper">
+                      <div class="message-card after email" data-tooltip="InTouch spotted the Series A announcement in TechCrunch and drafted a personalized congrats with an offer to help.">
+                        <div class="checkmark">✓</div>
+                        <div class="channel-label"><span class="channel-icon">✉️</span> Email</div>
+                        <div class="email-content">
+                          <div class="email-field"><span class="email-label">FROM</span><span class="email-value">You</span></div>
+                          <div class="email-field"><span class="email-label">SUBJECT</span><span class="email-value">Congrats on the Series A</span></div>
+                          <p class="message-text">Heard you just raised your Series A — congrats! Let me know if I can help with intros.</p>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div class="comparison-arrow">→</div>
-                  <div class="message-card after email">
-                    <div class="checkmark">✓</div>
-                    <div class="channel-label"><span class="channel-icon">✉️</span> Email</div>
-                    <div class="email-content">
-                      <div class="email-field"><span class="email-label">FROM</span><span class="email-value">You</span></div>
-                      <div class="email-field"><span class="email-label">SUBJECT</span><span class="email-value">Congrats on the Series A</span></div>
-                      <p class="message-text">Heard you just raised your Series A — congrats! Let me know if I can help with intros.</p>
-                    </div>
-                  </div>
                 </div>
-              </div>
 
-              <!-- Slide 3: Career update -->
-              <div class="carousel-slide" data-index="2">
-                <div class="slide-header">
-                  <span class="trigger-label">Career update</span>
-                  <span class="comparison-subtitle">Feature pitch vs. human check-in</span>
-                </div>
-                <div class="message-comparison">
-                  <div class="message-card before email">
-                    <div class="channel-label"><span class="channel-icon">✉️</span> Email</div>
-                    <div class="email-content">
-                      <div class="email-field"><span class="email-label">FROM</span><span class="email-value">You</span></div>
-                      <div class="email-field"><span class="email-label">SUBJECT</span><span class="email-value">New feature just shipped</span></div>
-                      <p class="message-text">We just released a new feature!</p>
-                    </div>
+                <!-- Slide 3: Career update -->
+                <div class="carousel-slide" data-index="2">
+                  <div class="slide-header">
+                    <span class="trigger-label">Career update</span>
+                    <span class="comparison-subtitle">Feature pitch vs. human check-in</span>
                   </div>
-                  <div class="comparison-arrow">→</div>
-                  <div class="message-card after instagram">
-                    <div class="checkmark">✓</div>
-                    <div class="channel-label"><span class="channel-icon">📸</span> Instagram DM</div>
-                    <div class="message-bubble">
-                      <span class="sender-badge">You</span>
-                      <p class="message-text">Saw you got promoted to VP — what's the new role like? Would love to catch up.</p>
+                  <div class="message-comparison">
+                    <div class="message-card-wrapper">
+                      <div class="message-card before email" data-tooltip="Broadcast about your product update. No relevance to the recipient's life or interests.">
+                        <div class="channel-label"><span class="channel-icon">✉️</span> Email</div>
+                        <div class="email-content">
+                          <div class="email-field"><span class="email-label">FROM</span><span class="email-value">You</span></div>
+                          <div class="email-field"><span class="email-label">SUBJECT</span><span class="email-value">New feature just shipped</span></div>
+                          <p class="message-text">We just released a new feature!</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="comparison-arrow">→</div>
+                    <div class="message-card-wrapper">
+                      <div class="message-card after instagram" data-tooltip="InTouch detected the VP promotion from LinkedIn and chose Instagram DM based on your past interactions with this contact.">
+                        <div class="checkmark">✓</div>
+                        <div class="channel-label"><span class="channel-icon">📸</span> Instagram DM</div>
+                        <div class="message-bubble">
+                          <span class="sender-badge">You</span>
+                          <p class="message-text">Saw you got promoted to VP — what's the new role like? Would love to catch up.</p>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -196,6 +210,11 @@
               </div>
               <button class="carousel-arrow next" aria-label="Next slide">→</button>
             </div>
+          </div>
+
+          <div class="solution-caption">
+            <h3 class="caption-headline">When you make it about them, they want to hear about you.</h3>
+            <p class="caption-text">Genuine interest in their milestones opens the door. Once you've shown you care, they're happy to hear your news too.</p>
           </div>
         </section>
 
