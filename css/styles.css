@@ -9,6 +9,11 @@
   --color-black: #0D0D0D;
   --color-gold: #D4A574;
 
+  /* Channel Accents */
+  --imessage-blue: #1B74F4;
+  --imessage-blue-dark: #0F5BD7;
+  --imessage-gray: #E5E5EA;
+
   /* Neutrals */
   --color-white: #FFFFFF;
   --color-off-white: #F5F5F5;
@@ -1486,25 +1491,40 @@ legend.form-label {
 
 /* Channel-specific styles */
 .message-card--imessage {
-  background: var(--color-white);
-  color: var(--color-black);
-  border-color: var(--color-gray-300);
-  box-shadow: 0 12px 30px rgba(13, 13, 13, 0.15);
+  background: linear-gradient(150deg, var(--imessage-blue) 0%, var(--imessage-blue-dark) 100%);
+  color: var(--color-white);
+  border-color: transparent;
+  box-shadow: 0 18px 36px rgba(16, 91, 215, 0.35);
 }
 
 .message-card--bad.message-card--imessage {
-  background: var(--color-gray-100);
-  border-color: var(--border);
+  background: var(--imessage-gray);
+  color: var(--color-black);
+  border-color: #d6d6dc;
   box-shadow: none;
 }
 
 .message-card--imessage .channel-name {
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .message-card--imessage .message-card__sender,
 .message-card--imessage .message-card__content p {
   color: inherit;
+}
+
+.message-card--imessage .message-card__sender {
+  background: rgba(255, 255, 255, 0.18);
+  color: #e8f1ff;
+}
+
+.message-card--bad.message-card--imessage .channel-name {
+  color: var(--text-secondary);
+}
+
+.message-card--bad.message-card--imessage .message-card__sender {
+  background: rgba(13, 13, 13, 0.06);
+  color: var(--text-secondary);
 }
 
 .message-card--email {
