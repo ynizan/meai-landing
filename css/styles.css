@@ -1274,7 +1274,6 @@ legend.form-label {
   background: var(--bg-card);
   border: 1px solid var(--border);
   padding: var(--spacing-xl);
-  padding-top: calc(var(--spacing-xl) + 56px);
   overflow: visible;
 }
 
@@ -1403,7 +1402,7 @@ legend.form-label {
 .message-card-wrapper[data-tooltip]::after {
   content: attr(data-tooltip);
   position: absolute;
-  bottom: calc(100% + 8px);
+  top: calc(100% + 8px);
   left: 50%;
   transform: translateX(-50%);
   background: var(--bg-primary);
